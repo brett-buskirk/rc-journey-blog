@@ -1,0 +1,42 @@
+---
+import { Image } from 'astro:assets';
+import { SITE, NAV, SOCIAL, daysFree } from '../lib/site';
+import mark from '../assets/rcj-mark.png';
+const year = new Date().getUTCFullYear();
+const days = daysFree();
+---
+
+<footer class="mt-24">
+  <hr class="horizon" />
+  <div class="mx-auto grid max-w-6xl gap-10 px-5 py-14 md:grid-cols-[1.4fr_1fr_1fr] md:px-8">
+    <div>
+      <div class="flex items-center gap-2.5">
+        <Image src={mark} alt="" width={32} height={32} class="h-8 w-8 object-contain" />
+        <p class="font-display text-2xl" style='font-variation-settings: "opsz" 60, "SOFT" 50;'>RC Journey</p>
+      </div>
+      <p class="mt-3 max-w-sm text-muted">{SITE.tagline}</p>
+      <p class="eyebrow mt-5">Day <span data-days-free>{days.toLocaleString('en-US')}</span> of freedom</p>
+    </div>
+
+    <nav aria-label="Sections">
+      <p class="eyebrow mb-4">The Terrain</p>
+      <ul class="space-y-2">
+        {NAV.map((item) => (
+          <li><a href={item.href} class="no-underline text-muted hover:text-ink">{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <nav aria-label="Elsewhere">
+      <p class="eyebrow mb-4">Elsewhere</p>
+      <ul class="space-y-2">
+        {SOCIAL.map((item) => (
+          <li><a href={item.href} rel="me noopener" class="no-underline text-muted hover:text-ink">{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+  <div class="mx-auto max-w-6xl px-5 pb-10 md:px-8">
+    <p class="eyebrow">© {year} {SITE.author} · RC Journey</p>
+  </div>
+</footer>

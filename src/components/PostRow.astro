@@ -1,0 +1,33 @@
+---
+import { Image } from 'astro:assets';
+import type { Post } from '../lib/posts';
+import { stamp } from '../lib/posts';
+import { categoryMeta } from '../lib/categories';
+
+interface Props { post: Post; }
+const { post } = Astro.props;
+const cat = categoryMeta(post.data.categories[0]);
+---
+
+<article class="group">
+  <a href={`/${post.id}/`} class="grid grid-cols-[1fr] items-center gap-5 no-underline sm:grid-cols-[7rem_1fr] sm:gap-6">
+    <div class="hidden overflow-hidden rounded-md sm:block aspect-[4/3]">
+      <Image
+        src={post.data.coverImage}
+        alt=""
+        width={224}
+        height={168}
+        class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+    </div>
+    <div>
+      <p class="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <span class="eyebrow">{stamp(post.data.date)}</span>
+        <span class="eyebrow" style="color: var(--c-ochre);">{cat.label}</span>
+      </p>
+      <h3 class="mt-2 text-2xl transition-colors group-hover:text-ochre" style='font-variation-settings: "opsz" 80, "SOFT" 40;'>
+        {post.data.title}
+      </h3>
+    </div>
+  </a>
+</article>

@@ -1,0 +1,29 @@
+# DigitalOcean App Platform spec — static site, build-on-push.
+#
+# One-time wiring (after this repo is on GitHub):
+#   doctl apps create --spec .do/app.yaml
+# Thereafter every push to `main` triggers a build + deploy (deploy_on_push).
+# To apply spec changes later: doctl apps update <APP_ID> --spec .do/app.yaml
+#
+# Update the `repo` field below to your GitHub <owner>/<name>.
+name: rc-journey
+region: nyc
+static_sites:
+  - name: web
+    github:
+      repo: brett-buskirk/rc-journey-custom
+      branch: main
+      deploy_on_push: true
+    build_command: npm run build
+    output_dir: dist
+    environment_slug: node-js
+    catchall_document: 404.html
+    envs:
+      - key: NODE_VERSION
+        value: "22"
+        scope: BUILD_TIME
+domains:
+  - domain: rcjourney.cloud
+    type: PRIMARY
+  - domain: www.rcjourney.cloud
+    type: ALIAS

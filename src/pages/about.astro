@@ -1,0 +1,68 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { SOCIAL, daysFree } from '../lib/site';
+import portrait from '../assets/brett-mount-lemmon.webp';
+const days = daysFree();
+---
+
+<Base title="About" description="What RC Journey is, and the person behind it.">
+  <section class="mx-auto max-w-3xl px-5 pt-20 md:px-8">
+    <p class="eyebrow">About · Day <span data-days-free>{days.toLocaleString('en-US')}</span> of freedom</p>
+    <h1 class="mt-4 text-5xl md:text-6xl" style='font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 1;'>
+      A travelogue with a purpose.
+    </h1>
+    <hr class="horizon mt-10" />
+  </section>
+
+  <section class="mx-auto max-w-3xl px-5 py-12 md:px-8">
+    <div class="prose-rcj">
+      <p>
+        The “RC” in RC Journey stands for <strong>Returning Citizen</strong> — someone
+        transitioning back into society after a period of incarceration. This is a space
+        where the breathtaking beauty of the American West is held up against the honest,
+        often unseen, realities of reentry.
+      </p>
+
+      <Image src={portrait} alt="Brett on Mount Lemmon" widths={[640, 960]} sizes="(max-width: 768px) 100vw, 768px" class="rounded-md" />
+
+      <h2>What RC Journey is</h2>
+      <ul>
+        <li><strong>A travelogue with a purpose.</strong> Cross-country travels through America’s
+          landscapes — serene forests to majestic mountains — as a backdrop for reflection on
+          resilience and the ongoing path of reentry.</li>
+        <li><strong>A mirror to reentry realities.</strong> The systemic barriers and personal
+          struggles returning citizens face daily: housing, employment, rebuilding relationships.</li>
+        <li><strong>A platform for voices of resilience.</strong> Other returning citizens who have
+          navigated reentry, in their own words.</li>
+        <li><strong>A personal narrative.</strong> My own road from incarceration to a career as a
+          Platform Systems Engineer at
+          <a href="https://thelastmile.org">The Last Mile</a> — and now, traveler and storyteller.</li>
+      </ul>
+
+      <h2>Meet Brett</h2>
+      <p>
+        My name is Brett. After 24 years of incarceration, I committed to a path of personal and
+        professional growth. My role as a Platform Systems Engineer isn’t just a job — it’s a
+        testament to skill development, mentorship, and second chances. Remote work gives me the
+        flexibility to merge a passion for technology and travel with a commitment to the reentry
+        community.
+      </p>
+
+      <h2>The mission</h2>
+      <ul>
+        <li><strong>Humanize reentry</strong> through authentic stories that break down stigma.</li>
+        <li><strong>Inspire hope</strong> through narratives of successful reentry and the beauty of nature.</li>
+        <li><strong>Educate and inform</strong> about the challenges of reentry and what helps.</li>
+        <li><strong>Build community</strong> for returning citizens, their loved ones, and advocates.</li>
+      </ul>
+    </div>
+
+    <hr class="horizon mt-12" />
+    <p class="mt-8 flex flex-wrap gap-4">
+      {SOCIAL.map((s) => (
+        <a href={s.href} rel="me noopener" class="rounded-full border border-line px-4 py-2 font-mono text-xs uppercase tracking-widest no-underline hover:border-ochre">{s.label}</a>
+      ))}
+    </p>
+  </section>
+</Base>

@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Search" description="Search the journey.">
+  <section class="mx-auto max-w-3xl px-5 pt-20 md:px-8">
+    <p class="eyebrow">Find your way</p>
+    <h1 class="mt-4 text-5xl md:text-6xl" style='font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 1;'>Search</h1>
+    <hr class="horizon mt-10" />
+  </section>
+
+  <section class="mx-auto max-w-3xl px-5 py-12 md:px-8">
+    <div id="search"></div>
+    <noscript><p class="text-muted">Search requires JavaScript.</p></noscript>
+    <p id="search-fallback" class="hidden text-muted">
+      Search runs on the built site. Locally, run <code class="font-mono">npm run build &amp;&amp; npm run preview</code> —
+      it isn’t available on the dev server.
+    </p>
+  </section>
+</Base>
+
+{/* The /pagefind/ bundle is produced by `pagefind` after the Astro build, so we
+    load it at runtime (not via Vite). PagefindUI is attached to window by the
+    script. On the dev server the bundle 404s — we show a helpful note instead. */}
+<script is:inline>
+  (() => {
+    const el = document.getElementById('search');
+    const fallback = document.getElementById('search-fallback');
+    const css = document.createElement('link');
+    css.rel = 'stylesheet';
+    css.href = '/pagefind/pagefind-ui.css';
+    document.head.appendChild(css);
+
+    const js = document.createElement('script');
+    js.src = '/pagefind/pagefind-ui.js';
+    js.onload = () => new window.PagefindUI({
+      element: '#search',
+      showImages: true,
+      showSubResults: true,
+      pageSize: 8,
+    });
+    js.onerror = () => { if (el && fallback) { el.classList.add('hidden'); fallback.classList.remove('hidden'); } };
+    document.body.appendChild(js);
+  })();
+</script>
+
+<style is:global>
+  :root {
+    --pagefind-ui-primary: var(--c-dusk);
+    --pagefind-ui-text: var(--c-ink);
+    --pagefind-ui-background: var(--c-surface);
+    --pagefind-ui-border: var(--c-line);
+    --pagefind-ui-font: var(--font-body);
+    --pagefind-ui-border-radius: 6px;
+  }
+</style>

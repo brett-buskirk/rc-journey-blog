@@ -1,0 +1,106 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PostRow from '../components/PostRow.astro';
+import { getPosts } from '../lib/posts';
+import { CATEGORIES, type CategoryKey } from '../lib/categories';
+import { daysFree, SITE } from '../lib/site';
+import hero from '../assets/hero-arizona-sunset.webp';
+
+const posts = await getPosts();
+const latest = posts.slice(0, 6);
+const days = daysFree();
+
+// Order the terrain deliberately: hardest truths first, widening to reflection.
+const terrainOrder: CategoryKey[] = [
+  'shadowed-mirror', 'reentry-realities', 'reflection', 'the-deep-well', 'rcj-info',
+];
+const counts = new Map<CategoryKey, number>();
+for (const p of posts) {
+  const k = p.data.categories[0];
+  counts.set(k, (counts.get(k) ?? 0) + 1);
+}
+---
+
+<Base image={hero.src}>
+  {/* ── Hero: the long view ─────────────────────────────────────────────── */}
+  <section class="relative">
+    <div class="relative h-[78vh] min-h-[30rem] w-full overflow-hidden">
+      <Image
+        src={hero}
+        alt="An Arizona sunset over open desert"
+        widths={[768, 1280, 1920]}
+        sizes="100vw"
+        class="absolute inset-0 h-full w-full object-cover"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div
+        class="absolute inset-0"
+        style="background: linear-gradient(to top, rgb(var(--c-scrim) / 0.86) 0%, rgb(var(--c-scrim) / 0.35) 45%, rgb(var(--c-scrim) / 0.15) 100%);"
+      >
+      </div>
+      <div class="absolute inset-x-0 bottom-0">
+        <div class="mx-auto max-w-6xl px-5 pb-12 md:px-8 md:pb-16">
+          <p class="eyebrow" style="color: #f0d9a8;">
+            Returning Citizen · Day <span data-days-free>{days.toLocaleString('en-US')}</span> of freedom
+          </p>
+          <h1 class="mt-4 max-w-3xl text-5xl text-[#f7efe0] md:text-7xl" style='font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 1;'>
+            {SITE.tagline}
+          </h1>
+          <p class="mt-5 max-w-xl text-lg text-[#e8dcc6]">
+            Twenty-four years inside. Now the open West — and an honest account of
+            what it takes to come home.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-4">
+            <a href="/blog/" class="rounded-full bg-ochre px-6 py-3 font-mono text-xs uppercase tracking-widest text-[#1a130a] no-underline transition-transform hover:-translate-y-0.5">
+              Read the journey
+            </a>
+            <a href="/about/" class="rounded-full border border-[#f0d9a8]/50 px-6 py-3 font-mono text-xs uppercase tracking-widest text-[#f0d9a8] no-underline transition-colors hover:border-[#f0d9a8]">
+              About Brett
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ── The terrain (sections) ──────────────────────────────────────────── */}
+  <section class="mx-auto max-w-6xl px-5 py-20 md:px-8">
+    <div class="flex items-baseline justify-between gap-4">
+      <h2 class="text-3xl md:text-4xl">The Terrain</h2>
+      <p class="eyebrow">Five ways through</p>
+    </div>
+    <hr class="horizon mt-6" />
+    <div class="mt-10 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+      {terrainOrder.map((key) => {
+        const c = CATEGORIES[key];
+        const n = counts.get(key) ?? 0;
+        return (
+          <a href={`/${c.route}/`} class="group block no-underline">
+            <p class="eyebrow">{String(n).padStart(2, '0')} {n === 1 ? 'piece' : 'pieces'}</p>
+            <h3 class="mt-2 text-2xl transition-colors group-hover:text-ochre">{c.label}</h3>
+            <p class="mt-2 text-muted">{c.blurb}</p>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+
+  {/* ── Latest writing ──────────────────────────────────────────────────── */}
+  <section class="mx-auto max-w-6xl px-5 pb-8 md:px-8">
+    <div class="flex items-baseline justify-between gap-4">
+      <h2 class="text-3xl md:text-4xl">Latest</h2>
+      <a href="/blog/" class="eyebrow no-underline hover:text-ink">All writing →</a>
+    </div>
+    <hr class="horizon mt-6" />
+    <div class="mt-10 space-y-8">
+      {latest.map((post, i) => (
+        <>
+          <PostRow post={post} />
+          {i < latest.length - 1 && <hr class="border-0 border-t border-line/60" />}
+        </>
+      ))}
+    </div>
+  </section>
+</Base>

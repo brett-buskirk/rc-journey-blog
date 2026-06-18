@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+/* Self-hosted faces (no runtime external dependency). */
+@import "@fontsource-variable/fraunces";
+@import "@fontsource-variable/newsreader";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+
+/* Class-based dark mode: we toggle `.dark` on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ── Golden-hour-to-dusk duotone ───────────────────────────────────────────
+   Light = warm sand paper at golden hour. Dark = warm desert night.
+   Semantic vars flip per theme; Tailwind tokens map to them below. */
+:root {
+  --c-bg:        #ece4d3;  /* warm sand paper */
+  --c-surface:   #f5efe2;  /* lifted card */
+  --c-ink:       #241c14;  /* warm umber near-black */
+  --c-muted:     #6b6250;  /* warm stone (meta, captions) */
+  --c-ochre:     #b9772a;  /* golden hour */
+  --c-dusk:      #4a4571;  /* dusk indigo */
+  --c-line:      #cdbfa3;  /* sandstone hairline */
+  --c-scrim:     22 18 12; /* rgb for overlays */
+}
+
+.dark {
+  --c-bg:        #221b13;  /* warm desert night — lifted off near-black */
+  --c-surface:   #2d251a;
+  --c-ink:       #ede4d2;  /* sand text */
+  --c-muted:     #b1a288;
+  --c-ochre:     #e0a24a;  /* brighter ember */
+  --c-dusk:      #a39cce;  /* periwinkle dusk */
+  --c-line:      #443a2b;
+  --c-scrim:     16 12 7;
+}
+
+@theme inline {
+  --color-bg:      var(--c-bg);
+  --color-surface: var(--c-surface);
+  --color-ink:     var(--c-ink);
+  --color-muted:   var(--c-muted);
+  --color-ochre:   var(--c-ochre);
+  --color-dusk:    var(--c-dusk);
+  --color-line:    var(--c-line);
+
+  --font-display: "Fraunces Variable", "Fraunces", Georgia, serif;
+  --font-body:    "Newsreader Variable", "Newsreader", Georgia, serif;
+  --font-mono:    "IBM Plex Mono", ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    background-color: var(--c-bg);
+    color: var(--c-ink);
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.72;
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 540;
+    line-height: 1.08;
+    letter-spacing: -0.012em;
+    /* Fraunces optical + soft axes give the warm, hand-touched display voice. */
+    font-variation-settings: "opsz" 144, "SOFT" 40, "WONK" 0;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background-color: var(--c-ochre);
+    color: var(--c-bg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--c-dusk);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  a { color: inherit; }
+}
+
+@layer components {
+  /* ── Signature: the horizon rule ──────────────────────────────────────────
+     A hairline that transitions golden-hour ochre into dusk indigo — the
+     West sky, and the inside/outside duality, used as the site's divider. */
+  .horizon {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--c-ochre) 18%,
+      var(--c-dusk) 82%,
+      transparent 100%
+    );
+    opacity: 0.85;
+  }
+
+  /* Primary nav: mono, but tight tracking so multi-word labels read as one
+     unit (not as separate options). */
+  .navlink {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    font-weight: 500;
+    letter-spacing: 0.015em;
+    color: var(--c-muted);
+    white-space: nowrap;
+  }
+
+  /* Mono eyebrow used for metadata, dates, day-counts and section labels. */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--c-muted);
+  }
+
+  /* Long-form reading column. */
+  .prose-rcj {
+    max-width: 68ch;
+  }
+  .prose-rcj > * + * { margin-top: 1.25em; }
+  .prose-rcj h2 { font-size: 1.9rem; margin-top: 2.2em; }
+  .prose-rcj h3 { font-size: 1.4rem; margin-top: 1.8em; }
+  .prose-rcj p { line-height: 1.75; }
+  .prose-rcj a {
+    color: var(--c-dusk);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(in srgb, var(--c-dusk) 45%, transparent);
+  }
+  .prose-rcj a:hover { text-decoration-color: var(--c-ochre); }
+  .prose-rcj img {
+    border-radius: 4px;
+    margin-block: 1.8em;
+    width: 100%;
+    height: auto;
+  }
+  .prose-rcj blockquote {
+    border-left: 2px solid var(--c-ochre);
+    padding-left: 1.2rem;
+    font-style: italic;
+    color: var(--c-muted);
+  }
+  .prose-rcj em { font-style: italic; }
+  .prose-rcj hr {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(90deg, transparent, var(--c-line), transparent);
+    margin-block: 2.4em;
+  }
+  .prose-rcj ul { list-style: none; padding-left: 0; }
+  .prose-rcj ul li {
+    position: relative;
+    padding-left: 1.4rem;
+  }
+  .prose-rcj ul li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0.7em;
+    width: 0.4rem; height: 0.4rem;
+    background: var(--c-ochre);
+    transform: rotate(45deg);
+  }
+}

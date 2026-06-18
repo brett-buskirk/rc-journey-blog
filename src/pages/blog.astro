@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import PostRow from '../components/PostRow.astro';
+import { getPosts } from '../lib/posts';
+const posts = await getPosts();
+---
+
+<Base title="All Writing" description="Every dispatch from the journey — newest first.">
+  <section class="mx-auto max-w-4xl px-5 pt-20 md:px-8">
+    <p class="eyebrow">The Journey · {posts.length} pieces</p>
+    <h1 class="mt-4 text-5xl md:text-6xl" style='font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 1;'>All Writing</h1>
+    <p class="mt-5 max-w-2xl text-lg text-muted">
+      Trailheads and reckonings, newest first. Or wander by
+      <a href="/the-shadowed-mirror/" class="underline decoration-1 underline-offset-2 hover:text-ochre">terrain</a>.
+    </p>
+    <hr class="horizon mt-10" />
+  </section>
+
+  <section class="mx-auto max-w-4xl px-5 pb-10 md:px-8">
+    <div class="mt-12 space-y-8">
+      {posts.map((post, i) => (
+        <>
+          <PostRow post={post} />
+          {i < posts.length - 1 && <hr class="border-0 border-t border-line/60" />}
+        </>
+      ))}
+    </div>
+  </section>
+</Base>
