@@ -1,0 +1,108 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import hero from '../assets/resources-hero.webp';
+import tlmLogo from '../assets/resources/tlm-logo.svg';
+import goodwillLogo from '../assets/resources/goodwill-logo.webp';
+import ceoLogo from '../assets/resources/ceo-logo.webp';
+import ipwwLogo from '../assets/resources/ipww-logo.webp';
+
+const orgs = [
+  {
+    logo: tlmLogo,
+    name: 'The Last Mile',
+    description:
+      'A team of social innovators breaking the cycle of incarceration with technical education and training that champions students\' success after their release.',
+    href: 'https://thelastmile.org',
+  },
+  {
+    logo: goodwillLogo,
+    name: 'Goodwill Industries',
+    description:
+      'Job training programs for justice-involved individuals, career development services, resume building, interview practice, and employment placement assistance.',
+    href: 'https://www.goodwill.org/',
+  },
+  {
+    logo: ceoLogo,
+    name: 'Center for Employment Opportunities',
+    description:
+      'Immediate, paid transitional employment, skill-building, and job placement services specifically for returning citizens.',
+    href: 'https://www.ceoworks.org/',
+  },
+  {
+    logo: ipwwLogo,
+    name: 'Indiana Prison Writers Workshop',
+    description:
+      'A program dedicated to improving the lives of incarcerated people through creative writing and expression.',
+    href: 'https://inprisonwritersworkshop.org/',
+  },
+];
+---
+
+<Base
+  title="Resources & Support"
+  description="A curated list of organizations, programs, and tools offering support for returning citizens and their loved ones — employment, legal aid, mental health, and more."
+>
+  <section class="mx-auto max-w-3xl px-5 pt-20 md:px-8">
+    <p class="eyebrow">Community · Resources & Support</p>
+    <h1 class="mt-4 text-5xl md:text-6xl" style='font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 1;'>
+      Find the support you need.
+    </h1>
+    <p class="mt-5 max-w-2xl text-lg text-muted">
+      For those on the reentry journey — or their loved ones — finding reliable support is crucial.
+      A curated list of organizations offering help with employment, legal aid, mental health, and
+      housing. Growing one resource at a time.
+    </p>
+    <hr class="horizon mt-10" />
+  </section>
+
+  <section class="mx-auto max-w-3xl px-5 pb-6 pt-12 md:px-8">
+    <Image
+      src={hero}
+      alt="Rainforest bridge — a path forward"
+      widths={[768, 1280]}
+      sizes="(max-width: 768px) 100vw, 768px"
+      class="w-full rounded-md"
+    />
+  </section>
+
+  <section class="mx-auto max-w-3xl px-5 pb-20 pt-6 md:px-8">
+    <p class="eyebrow mb-8">Employment & Job Training</p>
+
+    <div class="space-y-0">
+      {orgs.map((org, i) => (
+        <div class={`flex gap-6 py-8 ${i < orgs.length - 1 ? 'border-b border-line' : ''}`}>
+          <div class="flex w-20 shrink-0 items-start justify-center pt-1">
+            <Image
+              src={org.logo}
+              alt={`${org.name} logo`}
+              width={72}
+              height={72}
+              class="h-auto max-h-14 w-full object-contain"
+            />
+          </div>
+          <div class="min-w-0 flex-1">
+            <h2 class="font-display text-xl" style='font-variation-settings: "opsz" 40, "SOFT" 30;'>
+              {org.name}
+            </h2>
+            <p class="mt-2 text-muted leading-relaxed">{org.description}</p>
+            <a
+              href={org.href}
+              rel="noopener noreferrer"
+              target="_blank"
+              class="mt-3 inline-block font-mono text-xs uppercase tracking-widest text-ochre no-underline hover:underline"
+            >
+              Learn More →
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <hr class="horizon mt-8" />
+    <p class="mt-8 text-muted">
+      Know an organization that should be here?
+      <a href="mailto:brett@rcjourney.cloud">Send it along.</a>
+    </p>
+  </section>
+</Base>

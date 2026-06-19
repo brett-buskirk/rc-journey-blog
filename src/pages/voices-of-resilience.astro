@@ -1,0 +1,80 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import hero from '../assets/voices-hero.webp';
+---
+
+<Base
+  title="Voices of Resilience"
+  description="In-depth conversations with returning citizens who have navigated reentry successfully — stories of triumph, practical wisdom, and life after incarceration."
+>
+  <section class="mx-auto max-w-3xl px-5 pt-20 md:px-8">
+    <p class="eyebrow">Community · Voices of Resilience</p>
+    <h1 class="mt-4 text-5xl md:text-6xl" style='font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 1;'>
+      Returning citizen stories.
+    </h1>
+    <p class="mt-5 max-w-2xl text-lg text-muted">
+      In this section, I amplify the powerful voices of other returning citizens who have not only
+      navigated reentry successfully but are truly thriving — raw honesty, hard-won wisdom, and
+      lives transformed against formidable odds.
+    </p>
+    <hr class="horizon mt-10" />
+  </section>
+
+  <section class="mx-auto max-w-3xl px-5 py-12 md:px-8">
+    <div class="prose-rcj">
+      <Image
+        src={hero}
+        alt="Mountain sunset"
+        widths={[768, 1280]}
+        sizes="(max-width: 768px) 100vw, 768px"
+        class="rounded-md"
+      />
+
+      <h2>Beyond the Stereotypes</h2>
+      <p>
+        Too often, the narrative surrounding incarceration and reentry focuses solely on challenges
+        or deficits. But the reality is far richer and more inspiring. These stories challenge those
+        stereotypes, showcasing the immense capacity for growth, resilience, and positive
+        contribution. Each voice here offers a unique perspective on overcoming systemic barriers,
+        personal struggles, and societal stigmas — proving that a meaningful, fulfilling life after
+        prison is not just possible, but being lived every day.
+      </p>
+
+      <h2>Lessons from the Journey Back</h2>
+      <p>
+        Through in-depth conversations, I delve beyond the headlines to explore the practicalities
+        and personal fortitude that define successful reintegration. These stories are rich with
+        invaluable lessons: specific strategies for securing housing and employment, insights into
+        rebuilding family relationships, and advice on navigating mental health and community
+        engagement. Their collective wisdom shines a light on what truly helps — and sometimes
+        hinders — the journey back.
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-5 pb-4 md:px-8">
+    <p class="eyebrow mb-6">Episodes</p>
+
+    <div class="space-y-6">
+      <iframe
+        style="border-radius:12px"
+        src="https://open.spotify.com/embed/episode/2pq6Pc2FMzg2exuxwyPWp1?utm_source=generator"
+        width="100%"
+        height="232"
+        frameborder="0"
+        allowfullscreen
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"
+      ></iframe>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-5 pb-20 pt-12 md:px-8">
+    <hr class="horizon" />
+    <p class="mt-8 text-muted">
+      More conversations are on the way. If you're a returning citizen with a story to share,
+      <a href="mailto:brett@rcjourney.cloud">reach out</a>.
+    </p>
+  </section>
+</Base>

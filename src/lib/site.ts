@@ -16,6 +16,8 @@ export const NAV = [
   { label: 'Reentry Realities', href: '/reentry-realities/' },
   { label: 'Reflections', href: '/reflections/' },
   { label: 'The Deep Well', href: '/the-deep-well/' },
+  { label: 'Voices of Resilience', href: '/voices-of-resilience/' },
+  { label: 'Resources & Support', href: '/resources-and-support/' },
   { label: 'About', href: '/about/' },
 ];
 
