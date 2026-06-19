@@ -12,6 +12,15 @@ export const SITE = {
 };
 
 export const NAV = [
+  { label: 'Writing', href: '/writing/' },
+  { label: 'Voices of Resilience', href: '/voices-of-resilience/' },
+  { label: 'Resources & Support', href: '/resources-and-support/' },
+  { label: 'About', href: '/about/' },
+];
+
+// Used in the footer so individual journal sections remain directly linked.
+export const FOOTER_NAV = [
+  { label: 'Writing', href: '/writing/' },
   { label: 'The Shadowed Mirror', href: '/the-shadowed-mirror/' },
   { label: 'Reentry Realities', href: '/reentry-realities/' },
   { label: 'Reflections', href: '/reflections/' },

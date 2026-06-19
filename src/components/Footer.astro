@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { SITE, NAV, SOCIAL, daysFree } from '../lib/site';
+import { SITE, FOOTER_NAV, SOCIAL, daysFree } from '../lib/site';
 import mark from '../assets/rcj-mark.png';
 const year = new Date().getUTCFullYear();
 const days = daysFree();
@@ -21,7 +21,7 @@ const days = daysFree();
     <nav aria-label="Sections">
       <p class="eyebrow mb-4">The Terrain</p>
       <ul class="space-y-2">
-        {NAV.map((item) => (
+        {FOOTER_NAV.map((item) => (
           <li><a href={item.href} class="no-underline text-muted hover:text-ink">{item.label}</a></li>
         ))}
       </ul>
