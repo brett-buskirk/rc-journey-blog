@@ -1,5 +1,9 @@
 # CLAUDE.md — RC Journey (custom rebuild)
 
+> **Resuming on a new machine or in a fresh session? Read [`STATUS.md`](STATUS.md)
+> first** — it has the live progress log, setup steps, key decisions, gotchas
+> (incl. the gitignored 1.7 GB `wp-uploads/`), and the exact next actions.
+
 ## What this project is
 
 RC Journey rebuilt from the ground up as a custom **static site**. The original
@@ -41,7 +45,13 @@ experience matter more than flashy UI.
   `title, date, categories, tags, coverImage, draft`.
 - `wp-uploads/` — the full `/wp-content/uploads` tree, rsync'd straight off the
   droplet. This is the **backstop** for any image the export tool couldn't pull
-  over HTTP.
+  over HTTP. **NOT in git** (1.7 GB; see `.gitignore`). The build does not need
+  it — post images are already co-located under `output/posts/*/images/`. You
+  only need it again for remaining image work (gallery, re-sourcing stock). To
+  restore on a new machine, re-rsync from the still-running droplet — e.g.
+  `rsync -avz root@rcjourney.cloud:/var/www/.../wp-content/uploads/ wp-uploads/`
+  (confirm the exact remote path).
+- `export.xml` — raw WordPress export (committed, ~3.6 MB backstop).
 
 ## Known content issues — RESOLVED for posts (2026-06-18)
 
@@ -63,20 +73,25 @@ moot.
    build-time optimization (`<Image>` → responsive WebP). `coverImage` resolves
    via the content-collection `image()` helper. Done.
 
-## Content model
+## Content model — as implemented
 
-Align the Zod schema to the existing frontmatter; rename/extend as the design
-needs:
+Schema lives in `src/content.config.ts` (collection `posts`, glob loader over
+`output/posts/*/index.md`, slug = folder name). A missing/malformed field FAILS
+THE BUILD.
 
-- `title` — string, required
-- `date` — date, required
-- `categories` — string[], optional
-- `tags` — string[], optional
-- `coverImage` — image/string, optional
-- `draft` — boolean, default `false`
+- `title` — `z.string()`, required
+- `date` — `z.coerce.date()`, required
+- `categories` — `z.array(z.enum(CATEGORY_KEYS)).min(1)`. Each post has exactly
+  one category; an unknown/typo'd value breaks the build. Keys + their section
+  routes + labels live in `src/lib/categories.ts`.
+- `tags` — `z.array(z.string()).default([])`
+- `coverImage` — `image()` (Astro asset helper). Normalized by the rewire script
+  to `./images/<file>` so it resolves; missing file → build error.
+- `draft` — `z.boolean().default(false)` (no post currently sets it)
 
-**Preserve the original post slugs** as the URL structure wherever possible —
-these articles have SEO history. If any slug must change, add a redirect.
+**Original post slugs are preserved** as the URL structure (SEO history). Section
+routes also match the old WordPress page URLs (e.g. `/the-shadowed-mirror/`). If
+any slug must change, add a redirect.
 
 ## Roadmap (rough order)
 
