@@ -46,8 +46,7 @@ const ogImage = image ? new URL(image, SITE.url).href : undefined;
     <script is:inline>
       (() => {
         const stored = localStorage.getItem('theme');
-        const dark = stored ? stored === 'dark'
-          : matchMedia('(prefers-color-scheme: dark)').matches;
+        const dark = stored === 'dark';
         document.documentElement.classList.toggle('dark', dark);
       })();
     </script>
