@@ -1,5 +1,6 @@
 ---
 title: "Silence: The Sound of Freedom"
+author: Brett Buskirk
 date: 2025-10-12
 categories: 
   - "shadowed-mirror"

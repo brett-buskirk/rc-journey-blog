@@ -1,5 +1,6 @@
 ---
 title: "Yellowstone: Where Earth Breathes and Freedom Finds Its Echo"
+author: Brett Buskirk
 date: 2025-07-09
 categories: 
   - "reflection"

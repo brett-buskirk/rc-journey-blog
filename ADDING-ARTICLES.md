@@ -33,6 +33,7 @@ template and fill it in:
 ```yaml
 ---
 title: "Your Article Title"
+author: Brett Buskirk
 date: 2026-06-20
 categories:
   - "reflection"
@@ -49,6 +50,7 @@ draft: false
 | Field | Type | Notes |
 |---|---|---|
 | `title` | string | Required. Quoted to be safe with colons/apostrophes. |
+| `author` | string | Required. Displayed as a byline below the article title. e.g. `Brett Buskirk` |
 | `date` | YYYY-MM-DD | Required. Controls sort order. |
 | `categories` | list | Required. **Exactly one** value from the list below. |
 | `tags` | list | Optional. Free-form strings; shown as chips on the article. |
@@ -149,7 +151,7 @@ Platform. The live site updates within a minute or two.
 
 | Symptom | Cause |
 |---|---|
-| Build fails with "Expected type" | `categories` key is misspelled or not in the valid list |
+| Build fails with "Expected type" | `categories` key is misspelled or not in the valid list, or a required field like `author` is missing |
 | Build fails with "Image not found" | `coverImage` path doesn't match an actual file in `images/` |
 | Cover image appears twice | The first body image isn't identical to `coverImage` — they should match exactly (same filename) |
 | Gallery shows as links, not images | Used `[alt](path)` instead of `![alt](path)` |

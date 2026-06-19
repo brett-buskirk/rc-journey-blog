@@ -1,5 +1,6 @@
 ---
 title: "Dinner at the Edge of Time"
+author: Brett Buskirk
 date: 2025-10-29
 categories: 
   - "the-deep-well"

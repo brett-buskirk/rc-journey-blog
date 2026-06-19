@@ -1,5 +1,6 @@
 ---
 title: "Antisocial Media: The Overwhelming Weight of Love"
+author: Brett Buskirk
 date: 2025-10-13
 categories: 
   - "shadowed-mirror"

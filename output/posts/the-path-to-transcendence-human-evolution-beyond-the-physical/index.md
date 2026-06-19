@@ -1,5 +1,6 @@
 ---
 title: "The Path to Transcendence: Human Evolution Beyond the Physical"
+author: Brett Buskirk
 date: 2025-10-13
 categories: 
   - "the-deep-well"

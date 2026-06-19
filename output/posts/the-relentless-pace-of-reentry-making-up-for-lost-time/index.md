@@ -1,5 +1,6 @@
 ---
 title: "The Relentless Pace of Reentry: Making Up for Lost Time"
+author: Brett Buskirk
 date: 2025-07-25
 categories: 
   - "reentry-realities"

@@ -1,5 +1,6 @@
 ---
 title: "The COVID Prison: When the World Joined Me Behind Walls"
+author: Brett Buskirk
 date: 2025-10-14
 categories: 
   - "shadowed-mirror"

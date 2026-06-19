@@ -1,5 +1,6 @@
 ---
 title: "The Reentry Advantage: The Power of the \"Long View\""
+author: Brett Buskirk
 date: 2025-07-15
 categories: 
   - "reentry-realities"

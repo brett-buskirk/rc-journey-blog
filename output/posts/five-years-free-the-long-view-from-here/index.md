@@ -1,5 +1,6 @@
 ---
 title: "Five Years Free: The Long View From Here"
+author: Brett Buskirk
 date: 2026-01-22
 categories: 
   - "reflection"

@@ -1,5 +1,6 @@
 ---
 title: "Reentry Realities: The Unseen Landscape Beyond the View"
+author: Brett Buskirk
 date: 2025-07-08
 categories: 
   - "reentry-realities"

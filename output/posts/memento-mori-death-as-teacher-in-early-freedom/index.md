@@ -1,5 +1,6 @@
 ---
 title: "Memento Mori: Death as Teacher in Early Freedom"
+author: Brett Buskirk
 date: 2025-10-23
 categories: 
   - "shadowed-mirror"

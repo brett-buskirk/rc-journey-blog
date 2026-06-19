@@ -16,6 +16,7 @@ const posts = defineCollection({
   schema: ({ image }) =>
     z.object({
       title: z.string(),
+      author: z.string(),
       date: z.coerce.date(),
       // Exported as a YAML list; every post has exactly one. Unknown/typo'd
       // category -> build error.

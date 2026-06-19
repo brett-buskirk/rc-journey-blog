@@ -1,5 +1,6 @@
 ---
 title: "Beyond the Gate: The Unseen Timelines of Reconnecting"
+author: Brett Buskirk
 date: 2025-07-12
 categories: 
   - "reentry-realities"

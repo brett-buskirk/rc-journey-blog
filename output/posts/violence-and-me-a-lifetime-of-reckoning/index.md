@@ -1,5 +1,6 @@
 ---
 title: "Violence and Me: A Lifetime of Reckoning"
+author: Brett Buskirk
 date: 2025-10-13
 categories: 
   - "the-deep-well"

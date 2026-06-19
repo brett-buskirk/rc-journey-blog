@@ -1,5 +1,6 @@
 ---
 title: "RC Journey: Where the Open Road Meets the Path Back Home"
+author: Brett Buskirk
 date: 2025-07-06
 categories: 
   - "rcj-info"

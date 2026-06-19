@@ -1,5 +1,6 @@
 ---
 title: "First Week: Learning to Navigate Two Worlds"
+author: Brett Buskirk
 date: 2025-10-10
 categories: 
   - "shadowed-mirror"

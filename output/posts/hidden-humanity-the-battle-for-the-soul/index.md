@@ -1,5 +1,6 @@
 ---
 title: "Hidden Humanity: The Battle for the Soul"
+author: Brett Buskirk
 date: 2025-10-23
 categories: 
   - "shadowed-mirror"

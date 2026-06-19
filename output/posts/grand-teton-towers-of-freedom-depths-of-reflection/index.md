@@ -1,5 +1,6 @@
 ---
 title: "Grand Teton: Towers of Freedom, Depths of Reflection"
+author: Brett Buskirk
 date: 2025-07-10
 categories: 
   - "reflection"

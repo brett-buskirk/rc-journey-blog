@@ -1,5 +1,6 @@
 ---
 title: "Know Thyself: The Excavation of Identity"
+author: Brett Buskirk
 date: 2025-10-21
 categories: 
   - "shadowed-mirror"

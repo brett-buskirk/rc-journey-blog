@@ -1,5 +1,6 @@
 ---
 title: "Standing on Giants: Finding Freedom on Mount Jefferson"
+author: Brett Buskirk
 date: 2025-07-08
 categories: 
   - "reflection"

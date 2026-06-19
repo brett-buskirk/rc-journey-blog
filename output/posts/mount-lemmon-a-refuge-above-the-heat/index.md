@@ -1,5 +1,6 @@
 ---
 title: "Mount Lemmon: A Refuge Above the Heat"
+author: Brett Buskirk
 date: 2025-07-21
 categories: 
   - "reflection"

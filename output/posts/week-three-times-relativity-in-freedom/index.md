@@ -1,5 +1,6 @@
 ---
 title: "Week Three: Time's Relativity in Freedom"
+author: Brett Buskirk
 date: 2025-10-13
 categories: 
   - "shadowed-mirror"

@@ -1,5 +1,6 @@
 ---
 title: "First Night: Stepping Through the Gate"
+author: Brett Buskirk
 date: 2025-10-10
 categories: 
   - "shadowed-mirror"
