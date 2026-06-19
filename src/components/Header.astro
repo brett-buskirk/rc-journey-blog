@@ -37,21 +37,102 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
       >
         <span aria-hidden="true" class="text-base leading-none" data-theme-icon>☾</span>
       </button>
+      <button
+        id="menu-toggle"
+        type="button"
+        class="grid h-9 w-9 place-items-center rounded-full border border-line text-ink transition-colors hover:border-ochre lg:hidden"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+      >
+        <svg id="icon-open" aria-hidden="true" width="18" height="14" viewBox="0 0 18 14" fill="currentColor">
+          <rect y="0" width="18" height="2" rx="1"/>
+          <rect y="6" width="18" height="2" rx="1"/>
+          <rect y="12" width="18" height="2" rx="1"/>
+        </svg>
+        <svg id="icon-close" aria-hidden="true" class="hidden" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="0" y1="0" x2="14" y2="14"/>
+          <line x1="14" y1="0" x2="0" y2="14"/>
+        </svg>
+      </button>
     </div>
   </div>
+
+  <!-- Mobile nav drawer (grid-rows expand trick for smooth height animation) -->
+  <div id="mobile-nav-wrap" class="mobile-nav-wrap lg:hidden" aria-hidden="true">
+    <div>
+      <nav id="mobile-nav" class="mx-auto max-w-6xl px-5 pb-4 pt-1 md:px-8" aria-label="Mobile navigation">
+        {NAV.map((item) => (
+          <a
+            href={item.href}
+            class="navlink block border-b border-line py-3 no-underline hover:text-ink"
+            style={isActive(item.href) ? 'color: var(--c-ochre);' : ''}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+    </div>
+  </div>
+
   <hr class="horizon" />
 </header>
 
 <script>
-  const btn = document.getElementById('theme-toggle');
-  const icon = btn?.querySelector('[data-theme-icon]');
-  const sync = () => {
+  // Theme toggle
+  const themeBtn = document.getElementById('theme-toggle');
+  const icon = themeBtn?.querySelector('[data-theme-icon]');
+  const syncTheme = () => {
     if (icon) icon.textContent = document.documentElement.classList.contains('dark') ? '☀' : '☾';
   };
-  sync();
-  btn?.addEventListener('click', () => {
+  syncTheme();
+  themeBtn?.addEventListener('click', () => {
     const dark = document.documentElement.classList.toggle('dark');
     localStorage.setItem('theme', dark ? 'dark' : 'light');
-    sync();
+    syncTheme();
+  });
+
+  // Hamburger menu
+  const menuBtn = document.getElementById('menu-toggle');
+  const navWrap = document.getElementById('mobile-nav-wrap');
+  const iconOpen = document.getElementById('icon-open');
+  const iconClose = document.getElementById('icon-close');
+
+  function openMenu() {
+    navWrap?.classList.add('open');
+    navWrap?.removeAttribute('aria-hidden');
+    menuBtn?.setAttribute('aria-expanded', 'true');
+    menuBtn?.setAttribute('aria-label', 'Close navigation menu');
+    iconOpen?.classList.add('hidden');
+    iconClose?.classList.remove('hidden');
+  }
+
+  function closeMenu() {
+    navWrap?.classList.remove('open');
+    navWrap?.setAttribute('aria-hidden', 'true');
+    menuBtn?.setAttribute('aria-expanded', 'false');
+    menuBtn?.setAttribute('aria-label', 'Open navigation menu');
+    iconOpen?.classList.remove('hidden');
+    iconClose?.classList.add('hidden');
+  }
+
+  menuBtn?.addEventListener('click', () => {
+    navWrap?.classList.contains('open') ? closeMenu() : openMenu();
+  });
+
+  // Close when a nav link is clicked
+  document.querySelectorAll('#mobile-nav a').forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navWrap?.classList.contains('open')) closeMenu();
+  });
+
+  // Close on click outside header
+  document.addEventListener('click', (e) => {
+    const target = e.target as Element;
+    if (navWrap?.classList.contains('open') && !target.closest('header')) closeMenu();
   });
 </script>

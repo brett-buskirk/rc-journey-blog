@@ -89,3 +89,87 @@ const mins = readingTime(post.body);
     </nav>
   </article>
 </Base>
+
+<script>
+  const grids = document.querySelectorAll<HTMLElement>('.gallery-grid');
+  if (grids.length) {
+    // Build lightbox DOM
+    const overlay = document.createElement('div');
+    overlay.id = 'lightbox';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-label', 'Image viewer');
+    overlay.innerHTML = `
+      <button class="lb-close" aria-label="Close">&#x2715;</button>
+      <button class="lb-prev" aria-label="Previous image">&#8249;</button>
+      <button class="lb-next" aria-label="Next image">&#8250;</button>
+      <figure>
+        <img id="lb-img" alt="" />
+        <figcaption id="lb-cap"></figcaption>
+      </figure>
+      <span class="lb-counter" id="lb-counter"></span>
+    `;
+    document.body.appendChild(overlay);
+
+    const lbImg = document.getElementById('lb-img') as HTMLImageElement;
+    const lbCap = document.getElementById('lb-cap')!;
+    const lbCounter = document.getElementById('lb-counter')!;
+
+    interface GalleryItem { src: string; alt: string; }
+    const items: GalleryItem[] = [];
+    let current = 0;
+
+    grids.forEach((grid) => {
+      grid.querySelectorAll<HTMLImageElement>('figure img').forEach((img) => {
+        const idx = items.length;
+        items.push({ src: img.src, alt: img.alt });
+        img.parentElement!.addEventListener('click', () => open(idx));
+      });
+    });
+
+    function open(idx: number) {
+      current = idx;
+      render();
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      overlay.focus();
+    }
+
+    function close() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function render() {
+      const { src, alt } = items[current];
+      lbImg.src = src;
+      lbImg.alt = alt;
+      lbCap.textContent = alt;
+      lbCounter.textContent = `${current + 1} / ${items.length}`;
+    }
+
+    function prev() { current = (current - 1 + items.length) % items.length; render(); }
+    function next() { current = (current + 1) % items.length; render(); }
+
+    overlay.querySelector('.lb-close')!.addEventListener('click', close);
+    overlay.querySelector('.lb-prev')!.addEventListener('click', (e) => { e.stopPropagation(); prev(); });
+    overlay.querySelector('.lb-next')!.addEventListener('click', (e) => { e.stopPropagation(); next(); });
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+
+    // Keyboard
+    document.addEventListener('keydown', (e) => {
+      if (!overlay.classList.contains('open')) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft') prev();
+      if (e.key === 'ArrowRight') next();
+    });
+
+    // Touch swipe
+    let touchX = 0;
+    overlay.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; }, { passive: true });
+    overlay.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 40) dx < 0 ? next() : prev();
+    });
+  }
+</script>
