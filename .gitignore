@@ -1,7 +1,6 @@
-# migration backstop — 1.7 GB rsync of /wp-content/uploads, not needed by the
-# build (post images are co-located under output/posts/*/images). Kept locally
-# and on the droplet as the image source-of-truth.
+# migration backstops — not needed by the build
 wp-uploads/
+export.xml
 
 # build output
 dist/
