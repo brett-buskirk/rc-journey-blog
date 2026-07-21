@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import PostRow from './PostRow.astro';
+import PageHeader from './PageHeader.astro';
 import { getPostsByCategory } from '../lib/posts';
 import { categoryMeta, type CategoryKey } from '../lib/categories';
 
@@ -12,10 +13,12 @@ const posts = await getPostsByCategory(category);
 
 <Base title={meta.label} description={meta.blurb}>
   <section class="mx-auto max-w-4xl px-5 pt-20 md:px-8">
-    <p class="eyebrow">The Terrain · {String(posts.length).padStart(2, '0')} {posts.length === 1 ? 'piece' : 'pieces'}</p>
-    <h1 class="mt-4 text-5xl md:text-6xl" style='font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 1;'>{meta.label}</h1>
-    <p class="mt-5 max-w-2xl text-lg text-muted">{meta.blurb}</p>
-    <hr class="horizon mt-10" />
+    <PageHeader
+      eyebrow={`The Terrain · ${posts.length} ${posts.length === 1 ? 'piece' : 'pieces'}`}
+      title={meta.label}
+    >
+      {meta.blurb}
+    </PageHeader>
   </section>
 
   <section class="mx-auto max-w-4xl px-5 pb-10 md:px-8">

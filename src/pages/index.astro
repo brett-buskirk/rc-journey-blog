@@ -2,8 +2,9 @@
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import PostRow from '../components/PostRow.astro';
+import TerrainCard from '../components/TerrainCard.astro';
 import { getPosts } from '../lib/posts';
-import { CATEGORIES, type CategoryKey } from '../lib/categories';
+import { type CategoryKey } from '../lib/categories';
 import { daysFree, SITE, SOCIAL } from '../lib/site';
 import hero from '../assets/hero-arizona-sunset.webp';
 
@@ -45,18 +46,16 @@ for (const p of posts) {
           <p class="eyebrow" style="color: #f0d9a8;">
             Returning Citizen · Day <span data-days-free>{days.toLocaleString('en-US')}</span> of freedom
           </p>
-          <h1 class="mt-4 max-w-3xl text-5xl text-[#f7efe0] md:text-7xl" style='font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 1;'>
+          <h1 class="title-display mt-5 max-w-4xl text-5xl leading-[1.0] text-[#f7efe0] md:text-7xl">
             {SITE.tagline}
           </h1>
-          <p class="mt-5 max-w-xl text-lg text-[#e8dcc6]">
+          <p class="mt-6 max-w-xl text-lg text-[#e8dcc6]">
             Twenty-four years inside. Now the open West — and an honest account of
             what it takes to come home.
           </p>
-          <div class="mt-8 flex flex-wrap gap-4">
-            <a href="/blog/" class="rounded-full bg-ochre px-6 py-3 font-mono text-xs uppercase tracking-widest text-[#1a130a] no-underline transition-transform hover:-translate-y-0.5">
-              Read the journey
-            </a>
-            <a href="/about/" class="rounded-full border border-[#f0d9a8]/50 px-6 py-3 font-mono text-xs uppercase tracking-widest text-[#f0d9a8] no-underline transition-colors hover:border-[#f0d9a8]">
+          <div class="mt-9 flex flex-wrap gap-4">
+            <a href="/blog/" class="btn">Read the journey</a>
+            <a href="/about/" class="rounded-full border border-[#f0d9a8]/50 px-[1.4rem] py-[0.7rem] font-mono text-[0.72rem] uppercase tracking-[0.14em] text-[#f0d9a8] no-underline transition-colors hover:border-[#f0d9a8]">
               About Brett
             </a>
           </div>
@@ -88,18 +87,10 @@ for (const p of posts) {
       <p class="eyebrow">Five ways through</p>
     </div>
     <hr class="horizon mt-6" />
-    <div class="mt-10 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-      {terrainOrder.map((key) => {
-        const c = CATEGORIES[key];
-        const n = counts.get(key) ?? 0;
-        return (
-          <a href={`/${c.route}/`} class="group block no-underline">
-            <p class="eyebrow">{String(n).padStart(2, '0')} {n === 1 ? 'piece' : 'pieces'}</p>
-            <h3 class="mt-2 text-2xl transition-colors group-hover:text-ochre">{c.label}</h3>
-            <p class="mt-2 text-muted">{c.blurb}</p>
-          </a>
-        );
-      })}
+    <div class="mt-12 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+      {terrainOrder.map((key) => (
+        <TerrainCard category={key} count={counts.get(key) ?? 0} />
+      ))}
     </div>
   </section>
 

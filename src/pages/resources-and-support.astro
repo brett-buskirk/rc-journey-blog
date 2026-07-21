@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
 import tlmLogo from '../assets/resources/tlm-logo.svg';
 import goodwillLogo from '../assets/resources/goodwill-logo.webp';
 import ceoLogo from '../assets/resources/ceo-logo.webp';
@@ -43,16 +44,11 @@ const orgs = [
   description="A curated list of organizations, programs, and tools offering support for returning citizens and their loved ones — employment, legal aid, mental health, and more."
 >
   <section class="mx-auto max-w-3xl px-5 pt-20 md:px-8">
-    <p class="eyebrow">Community · Resources & Support</p>
-    <h1 class="mt-4 text-5xl md:text-6xl" style='font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 1;'>
-      Find the support you need.
-    </h1>
-    <p class="mt-5 max-w-2xl text-lg text-muted">
+    <PageHeader eyebrow="Community · Resources & Support" title="Find the support you need.">
       For those on the reentry journey — or their loved ones — finding reliable support is crucial.
       A curated list of organizations offering help with employment, legal aid, mental health, and
       housing. Growing one resource at a time.
-    </p>
-    <hr class="horizon mt-10" />
+    </PageHeader>
   </section>
 
   <section class="mx-auto max-w-3xl px-5 pb-20 pt-12 md:px-8">
@@ -71,7 +67,7 @@ const orgs = [
             />
           </div>
           <div class="min-w-0 flex-1">
-            <h2 class="font-display text-xl" style='font-variation-settings: "opsz" 40, "SOFT" 30;'>
+            <h2 class="font-display text-xl font-semibold tracking-tight">
               {org.name}
             </h2>
             <p class="mt-2 leading-relaxed text-muted">{org.description}</p>

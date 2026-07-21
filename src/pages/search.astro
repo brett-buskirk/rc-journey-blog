@@ -1,12 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
 ---
 
 <Base title="Search" description="Search the journey.">
   <section class="mx-auto max-w-3xl px-5 pt-20 md:px-8">
-    <p class="eyebrow">Find your way</p>
-    <h1 class="mt-4 text-5xl md:text-6xl" style='font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 1;'>Search</h1>
-    <hr class="horizon mt-10" />
+    <PageHeader eyebrow="Find your way" title="Search" />
   </section>
 
   <section class="mx-auto max-w-3xl px-5 py-12 md:px-8">

@@ -156,6 +156,55 @@
     color: var(--c-muted);
   }
 
+  /* Large title treatment — hero, article title, and page headers share one
+     voice: heavier weight + tighter tracking than body headings. */
+  .title-display {
+    font-weight: 680;
+    letter-spacing: -0.03em;
+    line-height: 1.02;
+  }
+
+  /* Buttons carry the mono "label" voice. Primary = ochre fill (text is --c-bg,
+     which reads correctly on the accent in both themes); ghost = hairline. */
+  .btn,
+  .btn-ghost {
+    display: inline-block;
+    border-radius: 9999px;
+    padding: 0.7rem 1.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: transform 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+  }
+  .btn {
+    background-color: var(--c-ochre);
+    color: var(--c-bg);
+  }
+  .btn-ghost {
+    border: 1px solid var(--c-line);
+    color: var(--c-ink);
+  }
+  @media (hover: hover) {
+    .btn:hover { transform: translateY(-2px); }
+    .btn-ghost:hover { border-color: var(--c-ochre); color: var(--c-ochre); }
+  }
+
+  /* Terrain (section) card — a hairline that warms to ochre on hover, so the
+     grid reads as a set of trailheads rather than floating text. */
+  .terrain-card {
+    display: block;
+    border-top: 1px solid var(--c-line);
+    padding-top: 1rem;
+    text-decoration: none;
+    transition: border-color 0.2s ease;
+  }
+  @media (hover: hover) {
+    .terrain-card:hover { border-color: var(--c-ochre); }
+  }
+
   /* Long-form reading column. */
   .prose-rcj {
     max-width: 68ch;
