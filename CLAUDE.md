@@ -1,122 +1,180 @@
-# CLAUDE.md — RC Journey (custom rebuild)
+# CLAUDE.md — RC Journey (`rc-journey-blog`)
 
-> **Resuming on a new machine or in a fresh session? Read [`STATUS.md`](STATUS.md)
-> first** — it has the live progress log, setup steps, key decisions, gotchas
-> (incl. the gitignored 1.7 GB `wp-uploads/`), and the exact next actions.
+Operating manual for the agent working **inside this repo**. This repo was
+scaffolded by the Estate Steward at `~/github-repos`; day-to-day it's mine to
+run. The machine-wide **managed policy** (`/etc/claude-code/CLAUDE.md`) and the
+**estate manual** (`~/github-repos/CLAUDE.md`) sit above this file with the
+universal safety/review/governance floors — this file refines them locally and
+**never relaxes** them. When they conflict, they win and I stop and ask.
+
+`STATUS.md` is the historical build-phase handoff log; for *current* state,
+this file is authoritative.
+
+## The chain of command (non-negotiable)
+
+Branch → open a PR → **stop and let Brett merge.** Never self-merge, never
+commit to `main`. One focused, reviewable change per PR. Signed commits ending
+with `Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>`. Brett owns
+architecture and the final call; I do the labor and report honestly.
 
 ## What this project is
 
-RC Journey rebuilt from the ground up as a custom **static site**. The original
-runs on **WordPress + Elementor** on a DigitalOcean droplet (`rcjourney.cloud`).
-Elementor's recurring cost is the reason for the move — this repo replaces it
-with a self-owned, near-zero-hosting build.
+RC Journey — a **reentry-advocacy and personal-memoir** site — rebuilt from a
+**WordPress + Elementor** droplet into a self-owned **Astro static site**.
+Elementor's recurring cost is the reason for the move. Articles and narrative
+writing are the heart of it, so **content fidelity and a clean reading
+experience beat flashy UI**. Design was greenfield ("The Long View" — golden-
+hour→dusk duotone, light default + dark toggle, Fraunces/Newsreader/IBM Plex
+Mono, a horizon-rule signature, and a live **days-free counter** from
+`2021-01-22`).
 
-RC Journey is a **reentry-advocacy and personal-memoir project**. Articles and
-narrative writing are the heart of it, so content fidelity and a clean reading
-experience matter more than flashy UI.
+_Note on subject matter:_ the site content **is** Brett's own reentry memoir —
+that story is the product and is public by his choice. The managed-policy
+positioning rules (self-taught/independent framing; "agentic engineering," never
+"vibe coding") still govern any **professional/brand** copy written *about* Brett
+or the project — that's a separate thing from the memoir itself.
 
-## Direction
+## Current state (2026-07-21) — LIVE
 
-- **Full design overhaul.** No obligation to match the old WordPress/Elementor
-  look, navigation, or layout. This is greenfield — reinvent freely.
-- The migrated **content** (articles, images, links, SEO slugs) is the asset
-  that had to survive the jump. The presentation is wide open.
-- Priorities, in order: clean reading experience → fast → cheap to host →
-  GitOps deploy.
+The site is **built, deployed, and serving** on DigitalOcean App Platform.
+Roadmap steps 1–6 are done. What remains is **step 7: verify against the live
+`rcjourney.cloud`, cut DNS over, then decommission the WordPress droplet**
+(which ends the Elementor + WP cost — the whole point). **Keep the droplet up
+until step 7 passes.** `rcjourney.cloud` DNS currently still points at the old
+droplet, so browsing that domain shows WordPress until cutover; the new build is
+live at the app ingress (below).
 
-## Stack (decided)
+Analytics: **Plausible** (self-hosted, privacy-friendly) is wired into every
+page. See below.
 
-- **Astro** — static site generator. Content authored as Markdown.
-- **Content collections** with a **Zod schema** for typed frontmatter. A
-  missing or malformed field should *fail the build*, not slip through silently.
-- **Pagefind** for client-side search (indexes at build time, no backend).
-- **Tailwind** for styling — open to change if the design wants something else.
-- **Deploy:** Cloudflare Pages or DigitalOcean App Platform (static tier).
-  Git push → build → deploy.
-- Optional, later: contact form via a serverless function or form service;
-  comments via Giscus if wanted.
+## Stack
 
-## What's already on disk
+- **Astro 5** static site, Markdown content. **Tailwind v4** (`@theme` tokens in
+  `src/styles/global.css`; semantic duotone vars flip per theme).
+- **Content collections + Zod schema** — a missing/malformed field **fails the
+  build** by design. `@astrojs/sitemap`, `@astrojs/rss`, `sharp` image pipeline.
+- **Pagefind** client-side search (indexed at build, no backend).
+- **PWA** via `@vite-pwa/astro` (`registerType: 'autoUpdate'`), self-hosted
+  fonts via `@fontsource*`.
 
-- `output/` — result of `wordpress-export-to-markdown` v3.0.5, run with:
-  `--post-folders=true --prefix-date=false --date-folders=none --save-images=all`.
-  One folder per post (named by slug), each containing `index.md` plus an
-  `images/` subfolder. Frontmatter fields present:
-  `title, date, categories, tags, coverImage, draft`.
-- `wp-uploads/` — the full `/wp-content/uploads` tree, rsync'd straight off the
-  droplet. This is the **backstop** for any image the export tool couldn't pull
-  over HTTP. **NOT in git** (1.7 GB; see `.gitignore`). The build does not need
-  it — post images are already co-located under `output/posts/*/images/`. You
-  only need it again for remaining image work (gallery, re-sourcing stock). To
-  restore on a new machine, re-rsync from the still-running droplet — e.g.
-  `rsync -avz root@rcjourney.cloud:/var/www/.../wp-content/uploads/ wp-uploads/`
-  (confirm the exact remote path).
-- `export.xml` — raw WordPress export (committed, ~3.6 MB backstop).
+## Content model
 
-## Known content issues — RESOLVED for posts (2026-06-18)
+Schema: `src/content.config.ts` — collection `posts`, glob loader over
+`output/posts/*/index.md`, **slug = folder name** (original WP slugs preserved
+verbatim for SEO). Fields: `title` (req), `author` (req — every post is stamped
+with the byline), `date` (`z.coerce.date`, req), `categories`
+(`z.array(z.enum(CATEGORY_KEYS)).min(1)` — one per post; an unknown/typo'd key
+breaks the build), `tags` (default `[]`), `coverImage` (`image()` helper; missing
+file → build error), `draft` (default `false`).
 
-All three were handled by `scripts/rewire-images.mjs` (idempotent). The 22 posts
-in `output/posts/` are now fully self-contained with local `./images/` refs.
-Note: the `output/pages/` and `output/custom/` Elementor exports were NOT
-rewired — they're being rebuilt fresh, so any remaining remote refs there are
-moot.
+The five category keys → section routes/labels live in `src/lib/categories.ts`;
+section routes match the old WP page URLs (e.g. `/the-shadowed-mirror/`). Change
+a slug → add a redirect. 22 posts migrated.
 
-1. **Stale-IP image references.** Only **1** occurrence existed (in
-   `output/custom/elementor_library/`, not in any post). Resolved.
-2. **"External / hotlinked images" — original assumption was WRONG.** These were
-   not unsourced Unsplash stock. The `34.57.223.40` refs (79) were the author's
-   own `PXL_*` Pixel-phone photos, and **every one existed in `wp-uploads/`** —
-   fully recovered locally. The only genuine third-party stock is 4
-   `photo-1478…`-style files, and even those were already downloaded into post
-   `images/` folders. Nothing needed re-sourcing.
-3. **Image pipeline.** Co-located: each post's `images/` folder feeds Astro's
-   build-time optimization (`<Image>` → responsive WebP). `coverImage` resolves
-   via the content-collection `image()` helper. Done.
+## Deploy — DigitalOcean App Platform (runbook)
 
-## Content model — as implemented
+GitOps: **every push to `main` builds and deploys** (`deploy_on_push: true`).
 
-Schema lives in `src/content.config.ts` (collection `posts`, glob loader over
-`output/posts/*/index.md`, slug = folder name). A missing/malformed field FAILS
-THE BUILD.
+- **App:** `rc-journey` · id `b1d7faad-9a9b-4b84-a4e5-e33503ad4875` · region
+  `nyc` · static-site component `web` · build `npm run build` · output `dist` ·
+  Node 22 · `catchall_document: 404.html`.
+- **Ingress:** `https://rc-journey-gwl48.ondigitalocean.app` (the new build is
+  always live here regardless of DNS). **Domains:** `rcjourney.cloud` (PRIMARY),
+  `www.rcjourney.cloud` (ALIAS).
+- **`doctl` auth:** the `brett` context (`doctl auth list`).
 
-- `title` — `z.string()`, required
-- `date` — `z.coerce.date()`, required
-- `categories` — `z.array(z.enum(CATEGORY_KEYS)).min(1)`. Each post has exactly
-  one category; an unknown/typo'd value breaks the build. Keys + their section
-  routes + labels live in `src/lib/categories.ts`.
-- `tags` — `z.array(z.string()).default([])`
-- `coverImage` — `image()` (Astro asset helper). Normalized by the rewire script
-  to `./images/<file>` so it resolves; missing file → build error.
-- `draft` — `z.boolean().default(false)` (no post currently sets it)
+**The rename gotcha (learned the hard way — 2026-07-21).** DO does **not** read
+the in-repo `.do/app.yaml` on push; it runs off a **config stored inside DO**.
+Editing/merging `.do/app.yaml` changes the file, not the live app. When the repo
+was renamed `rc-journey-custom` → `rc-journey-blog`, the stored config still
+pointed at the old name and the GitHub→DO link went dark — pushes stopped
+deploying. Fix: push the corrected spec to the live app, then it re-arms:
 
-**Original post slugs are preserved** as the URL structure (SEO history). Section
-routes also match the old WordPress page URLs (e.g. `/the-shadowed-mirror/`). If
-any slug must change, add a redirect.
+```bash
+doctl apps update b1d7faad-9a9b-4b84-a4e5-e33503ad4875 --spec .do/app.yaml
+```
 
-## Roadmap (rough order)
+Watching a deploy:
 
-1. ✅ Scaffold Astro in this repo. (Astro 5 + Tailwind v4 + sitemap/RSS/sharp.)
-2. ✅ Content collection + Zod schema. (`src/content.config.ts`; `categories` is
-   a singular-enum array — unknown category fails the build; `coverImage` via
-   `image()`; slugs = folder names.)
-3. ✅ Resolve images. (`scripts/rewire-images.mjs`; see resolved issues above.)
-4. ✅ Design pass — "The Long View." Warm golden-hour→dusk duotone, light+dark,
-   Fraunces/Newsreader/IBM Plex Mono, horizon-rule signature, day-counter.
-   Home, article, 5 section pages, About, blog index, 404.
-5. ✅ Pagefind search (`/search/`, indexed in `npm run build`).
-6. ⏳ Deploy — DigitalOcean App Platform. Spec written (`.do/app.yaml`); needs
-   the repo on GitHub + `doctl apps create`.
-7. ⏳ Verify against the live site, preserve slugs / add redirects, then
-   decommission the droplet — which ends both the Elementor and WP hosting cost.
+```bash
+doctl apps list-deployments b1d7faad-9a9b-4b84-a4e5-e33503ad4875   # cause + phase
+doctl apps get-deployment  b1d7faad-9a9b-4b84-a4e5-e33503ad4875 <DEPLOY_ID> --format Phase,Progress
+```
 
-## Working notes
+A push-triggered deploy shows cause `commit <sha> pushed to …/rc-journey-blog`;
+a manual re-apply shows `app spec updated`. Terminal phase = `ACTIVE` (good) or
+`ERROR`/`CANCELED`.
 
-- Author is an experienced engineer: MERN background, comfortable with Bash,
-  Python, Ansible, Terraform, and git. Skip the hand-holding — favor direct,
-  technical communication, and show the diff or command.
-- Prefers robust, repeatable automation. The deploy and any recurring tasks
-  should be scriptable / CI-driven, not manual clicking.
-- Repo lives at `~/github-repos/rc-journey-blog` (part of the `~/github-repos` estate).
-- **Keep the old WordPress site running** until the static build is verified
-  end to end. The rsync backstop covers images, but don't tear down the droplet
-  prematurely.
+## Analytics — Plausible
+
+Loaded on every page from `src/layouts/Base.astro`'s `<head>`: an async loader
+from the self-hosted endpoint `analytics.brett-buskirk.dev/js/pa-…-p.js` plus the
+`window.plausible` command queue. **Both `<script>` tags are `is:inline`** so
+Astro emits them verbatim in `<head>` instead of bundling/hoisting (which can
+desync the loader and the queue). If AgentGate/GitGuardian ever flag the random-
+looking script filename as a secret, it's a **false positive** — that URL is
+public by design. For stats to record, the Plausible dashboard must have the
+site domain (`rcjourney.cloud`) registered.
+
+## Build & dev gotchas
+
+- **Search only works on the built site** (`npm run build && npm run preview`),
+  not `npm run dev` — Pagefind's `/pagefind/` bundle is generated post-build.
+- **After a deploy, an open tab may show stale content until a hard refresh** —
+  the `autoUpdate` service worker precaches HTML and hands over on reload. Not a
+  broken deploy; verify against the ingress with a hard refresh / fresh tab.
+- **Node:** `.nvmrc` pins **22**; DO builds on **22**. A newer local Node
+  usually builds fine, but 22 is the source of truth. `node_modules` isn't
+  committed — `npm ci` before building.
+- **One dynamic route per directory level in Astro** — posts use `[slug].astro`
+  at root, so the 5 section pages are thin **static** files (a second root-level
+  dynamic route would collide).
+- **Days-free counter:** build value is a no-JS fallback; the inline script in
+  `Base.astro` recomputes it live from `SITE.freedomDate` on every visit.
+- **`scripts/rewire-images.mjs`** (image/link normalizer) reads the gitignored
+  1.7 GB `wp-uploads/` backstop. It's **done and idempotent** — you shouldn't
+  need to re-run it, and don't run it without that folder present.
+
+## Conventions (this repo)
+
+Wire every issue/PR up **completely on creation**:
+- **Assign** to `brett-buskirk`.
+- **Label** from the repo's base taxonomy (`documentation`, `enhancement`,
+  `bug`, … — no custom scope labels here). **No milestones** in this repo.
+- **Add to the Estate board** (Project **#17**) *and* this repo's own project
+  (**#8 "RC Journey"**):
+  `gh project item-add <17|8> --owner brett-buskirk --url <url>`
+  (the Estate board aggregates many repos — query it with a high `--limit` to
+  find an item).
+- The `brett-buskirk` gh account must be **active** for writes (`gh auth status`).
+
+**AgentGate** runs on every PR (`.agentgate.yml`): `scope` is **warning** here
+(solo-dev repo), `secrets` + `dangerous_patterns` stay **error**. Quirk:
+`dangerous_patterns` matches risky literal tokens against *added diff lines* and
+fires even in prose — keep such tokens out of diffs, or have Brett bypass.
+
+## Key files
+
+```
+astro.config.mjs              site, sitemap, PWA, markdown remark/rehype plugins
+.do/app.yaml                  DO App Platform spec (template for doctl; not read on push)
+src/content.config.ts         posts collection + Zod schema (build-fail gate)
+src/lib/categories.ts         5 categories → {route, label, blurb}; CATEGORY_KEYS
+src/lib/site.ts               SITE consts, NAV/FOOTER/SOCIAL, freedomDate, daysFree()
+src/lib/posts.ts              getPosts/byCategory, formatDate, stamp, readingTime
+src/layouts/Base.astro        <head> (SEO/OG, Plausible, PWA, no-FOUC theme, live counter)
+src/components/               Header, Footer, PostRow, SectionView
+src/pages/                    index, [slug] (articles), 5 section pages, about,
+                              blog, writing, voices-of-resilience,
+                              resources-and-support, search, 404, rss.xml.js
+src/styles/global.css         Tailwind v4 @theme, duotone tokens, .horizon/.eyebrow/.prose-rcj
+scripts/                      rewire-images, remark-strip-lead-cover, rehype-gallery
+```
+
+## Source inputs (not shipped)
+
+- `output/` — `wordpress-export-to-markdown` result (posts migrated; `pages/` +
+  `custom/` are Elementor salvage, rebuilt fresh not migrated).
+- `wp-uploads/` — full `/wp-content/uploads` rsync, the image backstop
+  (gitignored, ~1.7 GB; re-rsync from the droplet if needed).
+- `export.xml` — raw WordPress export (gitignored backstop).

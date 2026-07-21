@@ -1,7 +1,9 @@
 # STATUS — RC Journey rebuild (handoff log)
 
 _Living progress log so work can resume on a different computer or in a fresh
-Claude session. Last updated: 2026-06-18._
+Claude session. Last updated: 2026-07-21 — the site is now **live on
+DigitalOcean App Platform**. For authoritative current state, see
+[`CLAUDE.md`](CLAUDE.md); this file is the build-phase history._
 
 This file + `CLAUDE.md` + `README.md` are the durable record. The chat history
 and any local Claude "memory" do **not** travel; everything needed is here.
@@ -10,10 +12,10 @@ and any local Claude "memory" do **not** travel; everything needed is here.
 
 ## TL;DR — where we are
 
-Steps 1–5 of the roadmap are **done and committed**; the site builds, renders,
-and searches. Repo is on GitHub (private). **Remaining: step 6 (deploy to
-DigitalOcean App Platform) and step 7 (verify + cutover), plus optional stub
-pages.**
+Steps 1–6 of the roadmap are **done**; the site builds, renders, searches, and
+is **deployed and serving on DigitalOcean App Platform** (deploy-on-push to
+`main`). Repo is public on GitHub. **Remaining: step 7 (verify vs the live site,
+DNS cutover, decommission the droplet), plus optional stub pages.**
 
 | # | Step | State |
 |---|------|-------|
@@ -22,7 +24,7 @@ pages.**
 | 3 | Image pipeline (`scripts/rewire-images.mjs`) | ✅ |
 | 4 | Design — "The Long View" (home/article/sections/about/blog/404) | ✅ |
 | 5 | Pagefind search (`/search/`) | ✅ |
-| 6 | Deploy — DO App Platform (`.do/app.yaml` written, not yet created) | ⏳ |
+| 6 | Deploy — DO App Platform (live; app `rc-journey`, deploy-on-push) | ✅ |
 | 7 | Verify vs live site, redirects, decommission droplet | ⏳ |
 | — | Stub pages (gallery / voices / resources / newsletter) | ⏳ optional |
 
