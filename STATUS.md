@@ -26,15 +26,15 @@ pages.**
 | 7 | Verify vs live site, redirects, decommission droplet | ⏳ |
 | — | Stub pages (gallery / voices / resources / newsletter) | ⏳ optional |
 
-GitHub: **https://github.com/brett-buskirk/rc-journey-custom** (private, `main`).
+GitHub: **https://github.com/brett-buskirk/rc-journey-blog** (public, `main`).
 
 ---
 
 ## Resume on a new machine
 
 ```bash
-git clone git@github.com:brett-buskirk/rc-journey-custom.git
-cd rc-journey-custom
+git clone git@github.com:brett-buskirk/rc-journey-blog.git
+cd rc-journey-blog
 nvm use            # Node 22 (see .nvmrc); or install Node >=20.3
 npm install        # node_modules is NOT committed
 npm run dev        # http://localhost:4321  (NOTE: search does NOT work in dev)
@@ -152,7 +152,7 @@ the open West. Throughline = **time + the horizon**.
 ## Next actions (in order)
 
 1. **Deploy (step 6).** Set the correct GitHub `repo` in `.do/app.yaml` (already
-   `brett-buskirk/rc-journey-custom`), then:
+   `brett-buskirk/rc-journey-blog`), then:
    `doctl apps create --spec .do/app.yaml` (one-time). Verify the build runs on
    DO with Node 22. Then it's deploy-on-push to `main`.
 2. **Verify (step 7).** Crawl/spot-check every original post slug resolves; diff

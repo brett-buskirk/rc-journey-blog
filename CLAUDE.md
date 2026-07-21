@@ -116,7 +116,7 @@ any slug must change, add a redirect.
   technical communication, and show the diff or command.
 - Prefers robust, repeatable automation. The deploy and any recurring tasks
   should be scriptable / CI-driven, not manual clicking.
-- Repo lives at `~/GitHub/rc-journey-custom` on macOS (Apple Silicon).
+- Repo lives at `~/github-repos/rc-journey-blog` (part of the `~/github-repos` estate).
 - **Keep the old WordPress site running** until the static build is verified
   end to end. The rsync backstop covers images, but don't tear down the droplet
   prematurely.
