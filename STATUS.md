@@ -12,10 +12,12 @@ and any local Claude "memory" do **not** travel; everything needed is here.
 
 ## TL;DR — where we are
 
-Steps 1–6 of the roadmap are **done**; the site builds, renders, searches, and
-is **deployed and serving on DigitalOcean App Platform** (deploy-on-push to
-`main`). Repo is public on GitHub. **Remaining: step 7 (verify vs the live site,
-DNS cutover, decommission the droplet), plus optional stub pages.**
+**All 7 roadmap steps are done — the migration is complete and in production.**
+The site builds, renders, searches, and serves on DigitalOcean App Platform
+(deploy-on-push to `main`); DNS is cut over (apex + `www` live over HTTPS); and
+the old WordPress droplet has been **destroyed**, retiring the Elementor + WP
+cost. Repo is public on GitHub. Remaining work is optional polish only (stub
+pages, contact/newsletter form, Giscus).
 
 | # | Step | State |
 |---|------|-------|
@@ -25,7 +27,7 @@ DNS cutover, decommission the droplet), plus optional stub pages.**
 | 4 | Design — "The Long View" (home/article/sections/about/blog/404) | ✅ |
 | 5 | Pagefind search (`/search/`) | ✅ |
 | 6 | Deploy — DO App Platform (live; app `rc-journey`, deploy-on-push) | ✅ |
-| 7 | Verify vs live site, redirects, decommission droplet | ⏳ |
+| 7 | Verify vs live site, DNS cutover, droplet destroyed | ✅ |
 | — | Stub pages (gallery / voices / resources / newsletter) | ⏳ optional |
 
 GitHub: **https://github.com/brett-buskirk/rc-journey-blog** (public, `main`).
@@ -48,10 +50,10 @@ npm run preview    # serve dist/ — use THIS to test search
 It's the 1.7 GB rsync backstop of `/wp-content/uploads`, **gitignored**.
 - The **build does not need it** — every post image is already co-located under
   `output/posts/*/images/` and committed.
-- You **will** want it for the remaining image work (gallery page, re-sourcing
-  the 4 stock photos, alt hero shots). To get it on the new machine, either copy
-  the folder directly (external drive / cloud) or re-rsync from the still-running
-  droplet (`rcjourney.cloud`). Confirm the remote uploads path first.
+- You'd only want it for future image work (gallery page, re-sourcing the 4 stock
+  photos, alt hero shots). **The source droplet has been destroyed, so it can no
+  longer be re-rsync'd** — the only copies are whatever exists locally/offline.
+  Keep a durable backup if that work still matters.
 - `scripts/rewire-images.mjs` reads `wp-uploads/` — don't run it without the
   folder present. It's already done and idempotent, so you shouldn't need to.
 
@@ -151,24 +153,22 @@ the open West. Throughline = **time + the horizon**.
 
 ---
 
-## Next actions (in order)
+## Next actions
 
-1. **Deploy (step 6).** Set the correct GitHub `repo` in `.do/app.yaml` (already
-   `brett-buskirk/rc-journey-blog`), then:
-   `doctl apps create --spec .do/app.yaml` (one-time). Verify the build runs on
-   DO with Node 22. Then it's deploy-on-push to `main`.
-2. **Verify (step 7).** Crawl/spot-check every original post slug resolves; diff
-   against live `rcjourney.cloud`; add redirects (App Platform spec or a
-   `_redirects`/404 strategy) for anything that can't keep its slug. THEN it's
-   safe to decommission the droplet (ends Elementor + WP cost). Keep the droplet
-   up until this passes.
-3. **Optional stub pages** the old site had and nothing currently links to:
-   gallery, voices-of-resilience, resources-and-support, fellow-travelers,
-   newsletter. Add real ones when ready (newsletter needs a form service; a real
-   subscribe CTA can replace the stripped `[newsletter_form]`).
+The core migration is **complete** — deploy (step 6) and verify / DNS-cutover /
+droplet-decommission (step 7) are all done. What's left is optional:
+
+1. **Remaining stub pages** the old site had and nothing currently links to:
+   gallery, fellow-travelers, newsletter. (`voices-of-resilience` and
+   `resources-and-support` now exist as real pages.) Newsletter needs a form
+   service; a real subscribe CTA can replace the stripped `[newsletter_form]`.
+2. **Optional polish:** contact/newsletter form (serverless / form service),
+   Giscus comments, and keeping Astro / Tailwind / Pagefind current.
 
 ## Things worth confirming with the user on resume
 
-- Domain/DNS cutover plan for `rcjourney.cloud` (currently points at the droplet).
+- ~~Domain/DNS cutover for `rcjourney.cloud`~~ — **done**; apex + `www` live on
+  the DO app over HTTPS, old droplet destroyed.
 - Whether to wire a contact/newsletter form now or later (Giscus comments too).
-- Whether `wp-uploads/` made it to the new machine (needed for gallery work).
+- Where `wp-uploads/` lives now — the droplet backstop is **gone**, so make sure a
+  durable local/offline copy exists if the gallery work still matters.

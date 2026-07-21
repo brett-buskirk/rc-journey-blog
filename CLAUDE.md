@@ -34,18 +34,23 @@ positioning rules (self-taught/independent framing; "agentic engineering," never
 "vibe coding") still govern any **professional/brand** copy written *about* Brett
 or the project — that's a separate thing from the memoir itself.
 
-## Current state (2026-07-21) — LIVE
+## Current state (2026-07-21) — SHIPPED / in production
 
-The site is **built, deployed, and serving** on DigitalOcean App Platform.
-Roadmap steps 1–6 are done. What remains is **step 7: verify against the live
-`rcjourney.cloud`, cut DNS over, then decommission the WordPress droplet**
-(which ends the Elementor + WP cost — the whole point). **Keep the droplet up
-until step 7 passes.** `rcjourney.cloud` DNS currently still points at the old
-droplet, so browsing that domain shows WordPress until cutover; the new build is
-live at the app ingress (below).
+The migration is **complete**. All 7 roadmap steps are done: the site is built,
+deployed, and serving in production on DigitalOcean App Platform, and the old
+**WordPress + Elementor droplet has been destroyed** — the recurring Elementor +
+WP hosting cost (the whole reason for the rebuild) is retired.
+
+DNS is fully cut over on `rcjourney.cloud` (DO-managed nameservers): the apex and
+`www` both serve the live static site over HTTPS. Everything now rides on the CI
+pipeline — **push to `main` → DO App build → live**. No manual infra remains.
 
 Analytics: **Plausible** (self-hosted, privacy-friendly) is wired into every
-page. See below.
+page and confirmed tracking. See below.
+
+Day-to-day this repo is now in **maintenance mode**: content additions (see
+`ADDING-ARTICLES.md`), dependency currency, and optional polish (remaining stub
+pages, a contact/newsletter form, Giscus comments).
 
 ## Stack
 
@@ -78,9 +83,10 @@ GitOps: **every push to `main` builds and deploys** (`deploy_on_push: true`).
 - **App:** `rc-journey` · id `b1d7faad-9a9b-4b84-a4e5-e33503ad4875` · region
   `nyc` · static-site component `web` · build `npm run build` · output `dist` ·
   Node 22 · `catchall_document: 404.html`.
-- **Ingress:** `https://rc-journey-gwl48.ondigitalocean.app` (the new build is
-  always live here regardless of DNS). **Domains:** `rcjourney.cloud` (PRIMARY),
-  `www.rcjourney.cloud` (ALIAS).
+- **Ingress:** `https://rc-journey-gwl48.ondigitalocean.app` (the build is always
+  live here regardless of DNS). **Domains (live):** `rcjourney.cloud` (PRIMARY)
+  and `www.rcjourney.cloud` (ALIAS) both serve over HTTPS; DNS is DO-managed
+  (nameservers `ns[1-3].digitalocean.com`).
 - **`doctl` auth:** the `brett` context (`doctl auth list`).
 
 **The rename gotcha (learned the hard way — 2026-07-21).** DO does **not** read
@@ -176,5 +182,8 @@ scripts/                      rewire-images, remark-strip-lead-cover, rehype-gal
 - `output/` — `wordpress-export-to-markdown` result (posts migrated; `pages/` +
   `custom/` are Elementor salvage, rebuilt fresh not migrated).
 - `wp-uploads/` — full `/wp-content/uploads` rsync, the image backstop
-  (gitignored, ~1.7 GB; re-rsync from the droplet if needed).
-- `export.xml` — raw WordPress export (gitignored backstop).
+  (gitignored, ~1.7 GB). The build does **not** need it (post images are
+  committed under `output/posts/*/images/`). ⚠️ The source droplet is **gone**,
+  so this can no longer be re-rsync'd — the only copies are local/offline. Keep a
+  durable backup if the gallery / image re-sourcing work still matters.
+- `export.xml` — raw WordPress export (gitignored; also local-only now).
