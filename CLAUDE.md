@@ -132,6 +132,15 @@ site domain (`rcjourney.cloud`) registered.
 - **Node:** `.nvmrc` pins **22**; DO builds on **22**. A newer local Node
   usually builds fine, but 22 is the source of truth. `node_modules` isn't
   committed — `npm ci` before building.
+- **⚠️ Lockfile must be regenerated on Node 22 (`nvm use` first) whenever
+  dependencies change.** DO runs `npm ci`, which hard-fails the build if
+  `package-lock.json` is out of sync with `package.json`. Running `npm install`
+  on a newer Node (e.g. 24) silently prunes `sharp`'s optional `@emnapi/*` deps
+  from the lockfile; DO's Node-22 `npm ci` then errors *"npm lockfile is not in
+  sync"* and **the deploy fails while the old build stays live** — so the site
+  looks unchanged even though `main` merged. Fix/avoid: `nvm use` (→ 22) before
+  any `npm install`, commit the resulting `package-lock.json`. Bitten twice now
+  (commit `e5b0497`, then the #7→#8 design deploy).
 - **One dynamic route per directory level in Astro** — posts use `[slug].astro`
   at root, so the 5 section pages are thin **static** files (a second root-level
   dynamic route would collide).
