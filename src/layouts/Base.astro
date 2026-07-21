@@ -40,6 +40,15 @@ const ogImage = image ? new URL(image, SITE.url).href : undefined;
     {ogImage && <meta property="og:image" content={ogImage} />}
     <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
 
+    {/* Privacy-friendly analytics by Plausible. is:inline keeps the third-party
+        snippet verbatim in <head> — Astro must not bundle or hoist it, or the
+        async loader and the window.plausible command queue can desync. */}
+    <script is:inline async src="https://analytics.brett-buskirk.dev/js/pa-rdFNCr4qnGdBUR8D2ut-p.js"></script>
+    <script is:inline>
+      window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+      plausible.init()
+    </script>
+
     <script src="/registerSW.js" defer></script>
 
     {/* No-FOUC theme bootstrap: runs before first paint. */}
