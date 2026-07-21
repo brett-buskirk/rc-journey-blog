@@ -1,0 +1,26 @@
+---
+// A single "terrain" (category) card: a hairline trailhead with a piece count,
+// label, and blurb. Shared by the homepage and the Writing hub so the grid
+// stays identical in both places.
+import { categoryMeta, type CategoryKey } from '../lib/categories';
+
+interface Props {
+  category: CategoryKey;
+  count: number;
+}
+const { category, count } = Astro.props;
+const c = categoryMeta(category);
+---
+
+<a href={`/${c.route}/`} class="terrain-card group">
+  <p class="eyebrow">{count} {count === 1 ? 'piece' : 'pieces'}</p>
+  <h3 class="mt-2 flex items-center gap-2 text-2xl transition-colors group-hover:text-ochre">
+    {c.label}
+    <span
+      aria-hidden="true"
+      class="translate-x-0 text-ochre opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100"
+      >&rarr;</span
+    >
+  </h3>
+  <p class="mt-2 text-muted">{c.blurb}</p>
+</a>

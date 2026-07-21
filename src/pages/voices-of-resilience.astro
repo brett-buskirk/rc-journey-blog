@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
 ---
 
 <Base
@@ -7,15 +8,10 @@ import Base from '../layouts/Base.astro';
   description="In-depth conversations with returning citizens who have navigated reentry successfully — stories of triumph, practical wisdom, and life after incarceration."
 >
   <section class="mx-auto max-w-3xl px-5 pt-20 md:px-8">
-    <p class="eyebrow">Community · Voices of Resilience</p>
-    <h1 class="mt-4 text-5xl md:text-6xl" style='font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 1;'>
-      Returning citizen stories.
-    </h1>
-    <p class="mt-5 max-w-2xl text-lg text-muted">
+    <PageHeader eyebrow="Community · Voices of Resilience" title="Returning citizen stories.">
       Amplifying the voices of people who have not only navigated reentry successfully but are
       truly thriving — raw honesty, hard-won wisdom, and lives transformed against formidable odds.
-    </p>
-    <hr class="horizon mt-10" />
+    </PageHeader>
   </section>
 
   <section class="mx-auto max-w-3xl px-5 py-12 md:px-8">

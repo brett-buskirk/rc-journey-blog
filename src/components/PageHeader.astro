@@ -1,0 +1,21 @@
+---
+// Shared page header: mono eyebrow, large title, optional lede, horizon rule.
+// - eyebrow: pass a plain string via the `eyebrow` prop, OR a named `eyebrow`
+//   slot when it needs markup (e.g. the live [data-days-free] counter).
+// - lede: pass as children (default slot); it may contain links.
+// Keeps every standard page's header consistent and in one place.
+interface Props {
+  eyebrow?: string;
+  title: string;
+}
+const { eyebrow, title } = Astro.props;
+const hasEyebrowSlot = Astro.slots.has('eyebrow');
+const hasLede = Astro.slots.has('default');
+---
+
+<p class="eyebrow">{hasEyebrowSlot ? <slot name="eyebrow" /> : eyebrow}</p>
+<h1 class="title-display mt-4 text-5xl md:text-6xl">{title}</h1>
+{hasLede && (
+  <div class="mt-5 max-w-2xl text-lg text-muted"><slot /></div>
+)}
+<hr class="horizon mt-10" />

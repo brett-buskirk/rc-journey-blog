@@ -1,8 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
 import PostRow from '../components/PostRow.astro';
+import PageHeader from '../components/PageHeader.astro';
+import TerrainCard from '../components/TerrainCard.astro';
 import { getPosts } from '../lib/posts';
-import { CATEGORIES, type CategoryKey } from '../lib/categories';
+import { type CategoryKey } from '../lib/categories';
 
 const posts = await getPosts();
 
@@ -21,31 +23,18 @@ for (const p of posts) {
   description="The full terrain — five editorial sections, 22 dispatches from the road and the reckoning."
 >
   <section class="mx-auto max-w-4xl px-5 pt-20 md:px-8">
-    <p class="eyebrow">The Terrain · {posts.length} pieces</p>
-    <h1 class="mt-4 text-5xl md:text-6xl" style='font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 1;'>
-      The writing.
-    </h1>
-    <p class="mt-5 max-w-2xl text-lg text-muted">
+    <PageHeader eyebrow={`The Terrain · ${posts.length} pieces`} title="The writing.">
       Five editorial sections — each a different angle on the same long road. Pick a terrain or
       browse everything at once.
-    </p>
-    <hr class="horizon mt-10" />
+    </PageHeader>
   </section>
 
   {/* Section cards */}
   <section class="mx-auto max-w-4xl px-5 py-14 md:px-8">
-    <div class="grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-      {sections.map((key) => {
-        const c = CATEGORIES[key];
-        const n = counts.get(key) ?? 0;
-        return (
-          <a href={`/${c.route}/`} class="group block no-underline">
-            <p class="eyebrow">{String(n).padStart(2, '0')} {n === 1 ? 'piece' : 'pieces'}</p>
-            <h2 class="mt-2 text-2xl transition-colors group-hover:text-ochre">{c.label}</h2>
-            <p class="mt-2 text-muted">{c.blurb}</p>
-          </a>
-        );
-      })}
+    <div class="grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+      {sections.map((key) => (
+        <TerrainCard category={key} count={counts.get(key) ?? 0} />
+      ))}
     </div>
   </section>
 
@@ -53,18 +42,8 @@ for (const p of posts) {
   <section class="mx-auto max-w-4xl px-5 pb-6 md:px-8">
     <hr class="horizon" />
     <div class="flex flex-wrap items-center gap-6 pt-10">
-      <a
-        href="/blog/"
-        class="rounded-full border border-line px-5 py-2.5 font-mono text-xs uppercase tracking-widest no-underline hover:border-ochre"
-      >
-        All articles →
-      </a>
-      <a
-        href="/search/"
-        class="rounded-full border border-line px-5 py-2.5 font-mono text-xs uppercase tracking-widest no-underline hover:border-ochre"
-      >
-        Search →
-      </a>
+      <a href="/blog/" class="btn-ghost">All articles →</a>
+      <a href="/search/" class="btn-ghost">Search →</a>
     </div>
   </section>
 

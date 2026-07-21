@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
 import { SOCIAL, daysFree } from '../lib/site';
 import portrait from '../assets/brett-mount-lemmon.webp';
 const days = daysFree();
@@ -8,11 +9,9 @@ const days = daysFree();
 
 <Base title="About" description="What RC Journey is, and the person behind it.">
   <section class="mx-auto max-w-3xl px-5 pt-20 md:px-8">
-    <p class="eyebrow">About · Day <span data-days-free>{days.toLocaleString('en-US')}</span> of freedom</p>
-    <h1 class="mt-4 text-5xl md:text-6xl" style='font-variation-settings: "opsz" 144, "SOFT" 50, "WONK" 1;'>
-      A travelogue with a purpose.
-    </h1>
-    <hr class="horizon mt-10" />
+    <PageHeader title="A travelogue with a purpose.">
+      <Fragment slot="eyebrow">About · Day <span data-days-free>{days.toLocaleString('en-US')}</span> of freedom</Fragment>
+    </PageHeader>
   </section>
 
   <section class="mx-auto max-w-3xl px-5 py-12 md:px-8">
