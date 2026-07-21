@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
-/* Self-hosted faces (no runtime external dependency). */
-@import "@fontsource-variable/fraunces";
-@import "@fontsource-variable/newsreader";
+/* Self-hosted faces (no runtime external dependency).
+   Three voices: Schibsted Grotesk = display/UI, Spectral = long-form reading,
+   IBM Plex Mono = the "counting" voice (dates, day-counts, data). */
+@import "@fontsource-variable/schibsted-grotesk";
+@import "@fontsource/spectral/400.css";
+@import "@fontsource/spectral/500.css";
+@import "@fontsource/spectral/600.css";
+@import "@fontsource/spectral/400-italic.css";
 @import "@fontsource/ibm-plex-mono/400.css";
 @import "@fontsource/ibm-plex-mono/500.css";
 
@@ -11,27 +16,29 @@
 
 /* ── Golden-hour-to-dusk duotone ───────────────────────────────────────────
    Light = warm sand paper at golden hour. Dark = warm desert night.
+   Deepened + saturated over the first pass so the palette reads as a choice,
+   not a wash. Every text pairing below clears WCAG AA at its shipped size.
    Semantic vars flip per theme; Tailwind tokens map to them below. */
 :root {
-  --c-bg:        #ece4d3;  /* warm sand paper */
-  --c-surface:   #f5efe2;  /* lifted card */
-  --c-ink:       #241c14;  /* warm umber near-black */
-  --c-muted:     #6b6250;  /* warm stone (meta, captions) */
-  --c-ochre:     #b9772a;  /* golden hour */
-  --c-dusk:      #4a4571;  /* dusk indigo */
-  --c-line:      #cdbfa3;  /* sandstone hairline */
-  --c-scrim:     22 18 12; /* rgb for overlays */
+  --c-bg:        #ece3cf;  /* warm sand paper */
+  --c-surface:   #f5eede;  /* lifted card */
+  --c-ink:       #201910;  /* warm umber near-black */
+  --c-muted:     #6a604a;  /* warm stone (meta, captions) */
+  --c-ochre:     #97531a;  /* burnt golden hour (AA on sand at label size) */
+  --c-dusk:      #3f3a63;  /* deep dusk indigo */
+  --c-line:      #cdbc9c;  /* sandstone hairline */
+  --c-scrim:     28 22 14; /* rgb for overlays */
 }
 
 .dark {
-  --c-bg:        #221b13;  /* warm desert night — lifted off near-black */
-  --c-surface:   #2d251a;
-  --c-ink:       #ede4d2;  /* sand text */
-  --c-muted:     #b1a288;
-  --c-ochre:     #e0a24a;  /* brighter ember */
-  --c-dusk:      #a39cce;  /* periwinkle dusk */
-  --c-line:      #443a2b;
-  --c-scrim:     16 12 7;
+  --c-bg:        #1d1710;  /* warm desert night — lifted off near-black */
+  --c-surface:   #292118;
+  --c-ink:       #ece1cd;  /* sand text */
+  --c-muted:     #ab9c80;
+  --c-ochre:     #e39b40;  /* brighter ember */
+  --c-dusk:      #9c95c9;  /* periwinkle dusk */
+  --c-line:      #40372a;
+  --c-scrim:     12 9 5;
 }
 
 @theme inline {
@@ -43,8 +50,8 @@
   --color-dusk:    var(--c-dusk);
   --color-line:    var(--c-line);
 
-  --font-display: "Fraunces Variable", "Fraunces", Georgia, serif;
-  --font-body:    "Newsreader Variable", "Newsreader", Georgia, serif;
+  --font-display: "Schibsted Grotesk Variable", "Schibsted Grotesk", system-ui, sans-serif;
+  --font-body:    "Spectral", Georgia, "Times New Roman", serif;
   --font-mono:    "IBM Plex Mono", ui-monospace, monospace;
 }
 
@@ -66,8 +73,9 @@
     background-color: var(--c-bg);
     color: var(--c-ink);
     font-family: var(--font-body);
-    font-size: 1.0625rem;
-    line-height: 1.72;
+    /* Spectral runs a touch small; nudge size up and tighten leading for reading. */
+    font-size: 1.09rem;
+    line-height: 1.7;
     font-optical-sizing: auto;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -75,11 +83,11 @@
 
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    font-weight: 540;
-    line-height: 1.08;
-    letter-spacing: -0.012em;
-    /* Fraunces optical + soft axes give the warm, hand-touched display voice. */
-    font-variation-settings: "opsz" 144, "SOFT" 40, "WONK" 0;
+    /* Schibsted Grotesk carries the display voice on weight + tight tracking
+       (it exposes only a wght axis — no optical/soft axes to set). */
+    font-weight: 640;
+    line-height: 1.04;
+    letter-spacing: -0.021em;
     text-wrap: balance;
   }
 
@@ -127,13 +135,13 @@
     overflow: hidden;
   }
 
-  /* Primary nav: mono, but tight tracking so multi-word labels read as one
-     unit (not as separate options). */
+  /* Primary nav: the display sans at a small UI size — the "voice/UI" role.
+     (Mono is reserved for the counting voice; see .eyebrow.) */
   .navlink {
-    font-family: var(--font-mono);
-    font-size: 0.74rem;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
     font-weight: 500;
-    letter-spacing: 0.015em;
+    letter-spacing: -0.004em;
     color: var(--c-muted);
     white-space: nowrap;
   }
@@ -153,8 +161,22 @@
     max-width: 68ch;
   }
   .prose-rcj > * + * { margin-top: 1.25em; }
-  .prose-rcj h2 { font-size: 1.9rem; margin-top: 2.2em; }
-  .prose-rcj h3 { font-size: 1.4rem; margin-top: 1.8em; }
+  /* Reading-column subheads stay in the serif so the essay reads as one book,
+     not sans headings dropped into serif text. */
+  .prose-rcj h2 {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1.7rem;
+    letter-spacing: -0.008em;
+    margin-top: 2.2em;
+  }
+  .prose-rcj h3 {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1.32rem;
+    letter-spacing: -0.004em;
+    margin-top: 1.8em;
+  }
   .prose-rcj p { line-height: 1.75; }
   .prose-rcj a {
     color: var(--c-dusk);

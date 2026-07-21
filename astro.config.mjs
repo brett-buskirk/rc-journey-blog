@@ -18,8 +18,8 @@ export default defineConfig({
         short_name: 'RC Journey',
         description:
           "A returning citizen's travelogue and reentry memoir — the freedom of the American West held up against the realities of life after 24 years inside.",
-        theme_color: '#b9772a',
-        background_color: '#ece4d3',
+        theme_color: '#97531a',
+        background_color: '#ece3cf',
         display: 'standalone',
         start_url: '/',
         icons: [
