@@ -6,8 +6,9 @@ done; what remains is getting it live and retiring the old stack.
 
 ## Deploy & cut over
 
-- [ ] Ship to DigitalOcean App Platform from the existing spec (`.do/app.yaml`) —
-      `doctl apps create`, then GitOps builds on every push to `main`.
+- [x] Ship to DigitalOcean App Platform from the existing spec (`.do/app.yaml`) —
+      GitOps builds on every push to `main`. **Done** — app `rc-journey` is live
+      (deploy-on-push against `brett-buskirk/rc-journey-blog`).
 - [ ] Verify the static build against the live `rcjourney.cloud` site page by page.
 - [ ] Preserve original slugs and add redirects for any URL that changed, so SEO
       history survives the jump.
