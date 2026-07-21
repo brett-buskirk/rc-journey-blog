@@ -24,9 +24,12 @@ RC Journey — a **reentry-advocacy and personal-memoir** site — rebuilt from 
 Elementor's recurring cost is the reason for the move. Articles and narrative
 writing are the heart of it, so **content fidelity and a clean reading
 experience beat flashy UI**. Design was greenfield ("The Long View" — golden-
-hour→dusk duotone, light default + dark toggle, Fraunces/Newsreader/IBM Plex
-Mono, a horizon-rule signature, and a live **days-free counter** from
-`2021-01-22`).
+hour→dusk duotone, light default + dark toggle, a horizon-rule signature, and a
+live **days-free counter** from `2021-01-22`). The type system ("Field Guide"
+refresh) runs three roles: **Schibsted Grotesk** (display + UI), **Spectral**
+(long-form reading), **IBM Plex Mono** (the "counting" voice — dates, day-counts,
+data). Palette tokens live in `global.css` and clear WCAG AA at their shipped
+sizes.
 
 _Note on subject matter:_ the site content **is** Brett's own reentry memoir —
 that story is the product and is public by his choice. The managed-policy
