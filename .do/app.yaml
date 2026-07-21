@@ -11,7 +11,7 @@ region: nyc
 static_sites:
   - name: web
     github:
-      repo: brett-buskirk/rc-journey-custom
+      repo: brett-buskirk/rc-journey-blog
       branch: main
       deploy_on_push: true
     build_command: npm run build
