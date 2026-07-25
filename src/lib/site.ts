@@ -1,5 +1,7 @@
 // Site-wide constants and chrome content.
 
+import { CATEGORIES, type CategoryKey } from './categories';
+
 export const SITE = {
   title: 'RC Journey',
   tagline: 'The long view from the other side of the gate.',
@@ -11,27 +13,31 @@ export const SITE = {
   freedomDate: '2021-01-22',
 };
 
-export const NAV = [
-  { label: 'Writing', href: '/writing/' },
-  { label: 'Voices of Resilience', href: '/voices-of-resilience/' },
-  { label: 'Resources & Support', href: '/resources-and-support/' },
-  { label: 'About', href: '/about/' },
+// The four editorial sections that anchor the nav — order is the curated path
+// from hardest truths toward reflection. Derived from CATEGORIES so labels and
+// routes stay in one place. (rcj-info remains a route, just not a nav item.)
+const NAV_SECTIONS: CategoryKey[] = [
+  'shadowed-mirror',
+  'reentry-realities',
+  'reflection',
+  'the-deep-well',
 ];
+const sectionLinks = NAV_SECTIONS.map((k) => ({
+  label: CATEGORIES[k].label,
+  href: `/${CATEGORIES[k].route}/`,
+}));
 
-// Used in the footer so individual journal sections remain directly linked.
+export const NAV = [...sectionLinks, { label: 'About', href: '/about/' }];
+
+// Footer mirrors the sections and adds the full archive.
 export const FOOTER_NAV = [
-  { label: 'Writing', href: '/writing/' },
-  { label: 'The Shadowed Mirror', href: '/the-shadowed-mirror/' },
-  { label: 'Reentry Realities', href: '/reentry-realities/' },
-  { label: 'Reflections', href: '/reflections/' },
-  { label: 'The Deep Well', href: '/the-deep-well/' },
-  { label: 'Voices of Resilience', href: '/voices-of-resilience/' },
-  { label: 'Resources & Support', href: '/resources-and-support/' },
+  ...sectionLinks,
+  { label: 'All Writing', href: '/blog/' },
   { label: 'About', href: '/about/' },
 ];
 
 export const SOCIAL = [
-  { label: 'YouTube', href: 'https://www.youtube.com/@RC_Journey' },
+  { label: 'brett-buskirk.dev', href: 'https://brett-buskirk.dev' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/brett-buskirk/' },
   { label: 'GitHub', href: 'https://github.com/brett-buskirk' },
   { label: 'Medium', href: 'https://medium.com/@brett-buskirk' },
