@@ -25,7 +25,7 @@ Right now, I’m writing this from a small town in Indiana. It’s a quiet place
 
 ### **The Open Road: A Journey of Purpose**
 
-As a Platform Systems Engineer for [The Last Mile](https://thelastmile.org), I’m fortunate to have a fully remote position. This incredible opportunity allows me the freedom to work from anywhere with an internet connection. And that’s where the “Journey” part of RC Journey comes in. I plan to leverage this flexibility to travel across the United States, visiting the natural wonders our country has to offer – our stunning national parks, our tranquil lakes, our majestic mountains.
+As a platform and DevOps engineer, I’m fortunate to work fully remotely. That flexibility lets me work from anywhere with an internet connection. And that’s where the “Journey” part of RC Journey comes in. I plan to leverage this flexibility to travel across the United States, visiting the natural wonders our country has to offer – our stunning national parks, our tranquil lakes, our majestic mountains.
 
 But this won’t be your typical travel blog filled with just pretty pictures and lighthearted anecdotes. My intention is to weave together the awe-inspiring beauty of these locations with the often-unseen struggles of returning citizens. As I hike a mountain trail, I’ll also be reflecting on the uphill battle of finding stable housing after release. As I gaze at a serene lake, I’ll be contemplating the challenges of rebuilding trust and relationships.
 

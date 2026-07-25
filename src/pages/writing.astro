@@ -9,7 +9,7 @@ import { type CategoryKey } from '../lib/categories';
 const posts = await getPosts();
 
 const sections: CategoryKey[] = [
-  'shadowed-mirror', 'reentry-realities', 'reflection', 'the-deep-well', 'rcj-info',
+  'shadowed-mirror', 'reentry-realities', 'reflection', 'the-deep-well',
 ];
 const counts = new Map<CategoryKey, number>();
 for (const p of posts) {
@@ -20,18 +20,18 @@ for (const p of posts) {
 
 <Base
   title="Writing"
-  description="The full terrain — five editorial sections, 22 dispatches from the road and the reckoning."
+  description="The full terrain — four editorial sections, 22 dispatches from the road and the reckoning."
 >
   <section class="mx-auto max-w-4xl px-5 pt-20 md:px-8">
     <PageHeader eyebrow={`The Terrain · ${posts.length} pieces`} title="The writing.">
-      Five editorial sections — each a different angle on the same long road. Pick a terrain or
+      Four editorial sections — each a different angle on the same long road. Pick a terrain or
       browse everything at once.
     </PageHeader>
   </section>
 
   {/* Section cards */}
   <section class="mx-auto max-w-4xl px-5 py-14 md:px-8">
-    <div class="grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="grid gap-x-8 gap-y-12 sm:grid-cols-2">
       {sections.map((key) => (
         <TerrainCard category={key} count={counts.get(key) ?? 0} />
       ))}
