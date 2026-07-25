@@ -6,7 +6,7 @@ import TerrainCard from '../components/TerrainCard.astro';
 import { getPosts } from '../lib/posts';
 import { type CategoryKey } from '../lib/categories';
 import { daysFree, SITE, SOCIAL } from '../lib/site';
-import hero from '../assets/hero-arizona-sunset.webp';
+import hero from '../assets/hero-long-view.webp';
 
 const posts = await getPosts();
 const latest = posts.slice(0, 6);
@@ -29,7 +29,7 @@ for (const p of posts) {
     <div class="relative h-[78vh] min-h-[30rem] w-full overflow-hidden">
       <Image
         src={hero}
-        alt="An Arizona sunset over open desert"
+        alt="The open American West at golden hour, ridgelines receding toward a luminous horizon"
         widths={[768, 1280, 1920]}
         sizes="100vw"
         class="absolute inset-0 h-full w-full object-cover"
