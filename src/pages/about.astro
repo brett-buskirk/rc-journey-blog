@@ -14,17 +14,40 @@ const days = daysFree();
     </PageHeader>
   </section>
 
+  {/* Intro — circular portrait + lead */}
   <section class="mx-auto max-w-3xl px-5 py-12 md:px-8">
-    <div class="prose-rcj">
-      <p>
-        The “RC” in RC Journey stands for <strong>Returning Citizen</strong> — someone
-        transitioning back into society after a period of incarceration. This is a space
-        where the breathtaking beauty of the American West is held up against the honest,
-        often unseen, realities of reentry.
+    <div class="flex flex-col items-center gap-8 sm:flex-row sm:items-center sm:gap-10">
+      <Image
+        src={portrait}
+        alt="Brett on Mount Lemmon"
+        width={416}
+        height={416}
+        class="h-40 w-40 shrink-0 rounded-full border border-line object-cover shadow-sm sm:h-52 sm:w-52"
+      />
+      <p class="text-lg leading-relaxed text-muted">
+        The “RC” in RC Journey stands for <strong class="font-semibold text-ink">Returning
+        Citizen</strong> — someone transitioning back into society after a period of incarceration.
+        This is a space where the breathtaking beauty of the American West is held up against the
+        honest, often unseen, realities of reentry.
       </p>
+    </div>
 
-      <Image src={portrait} alt="Brett on Mount Lemmon" widths={[640, 960]} sizes="(max-width: 768px) 100vw, 768px" class="rounded-md" />
+    {/* Start here → the introduction article */}
+    <a
+      href="/rcj-intro/"
+      class="group mt-10 block rounded-lg border border-line bg-surface p-6 no-underline transition-colors hover:border-ochre"
+    >
+      <p class="eyebrow">Start here</p>
+      <p class="title-display mt-2 text-xl transition-colors group-hover:text-ochre">
+        RC Journey: Where the Open Road Meets the Path Back Home<span aria-hidden="true" class="text-ochre"> →</span>
+      </p>
+      <p class="mt-1 text-muted">The introduction — what this is, and why it exists.</p>
+    </a>
+  </section>
 
+  {/* Detail */}
+  <section class="mx-auto max-w-3xl px-5 pb-12 md:px-8">
+    <div class="prose-rcj">
       <h2>What RC Journey is</h2>
       <ul>
         <li><strong>A travelogue with a purpose.</strong> Cross-country travels through America’s
