@@ -1,4 +1,6 @@
 ---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import PostRow from './PostRow.astro';
 import PageHeader from './PageHeader.astro';
@@ -9,17 +11,60 @@ interface Props { category: CategoryKey; }
 const { category } = Astro.props;
 const meta = categoryMeta(category);
 const posts = await getPostsByCategory(category);
+
+// Optional section hero: drop src/assets/sections/<route>.(webp|jpg|jpeg|png)
+// and it appears automatically — no code change. Missing → text header.
+const heroModules = import.meta.glob<ImageMetadata>(
+  '../assets/sections/*.{webp,jpg,jpeg,png}',
+  { eager: true, import: 'default' },
+);
+const hero = Object.entries(heroModules).find(
+  ([path]) => path.split('/').pop()?.replace(/\.[^.]+$/, '') === meta.route,
+)?.[1];
+
+const count = `The Terrain · ${posts.length} ${posts.length === 1 ? 'piece' : 'pieces'}`;
 ---
 
 <Base title={meta.label} description={meta.blurb}>
-  <section class="mx-auto max-w-4xl px-5 pt-20 md:px-8">
-    <PageHeader
-      eyebrow={`The Terrain · ${posts.length} ${posts.length === 1 ? 'piece' : 'pieces'}`}
-      title={meta.label}
-    >
-      {meta.blurb}
-    </PageHeader>
-  </section>
+  {hero ? (
+    <>
+      {/* Hero image with the section title overlaid */}
+      <section class="relative">
+        <div class="relative h-[46vh] min-h-[19rem] w-full overflow-hidden">
+          <Image
+            src={hero}
+            alt=""
+            widths={[768, 1280, 1920]}
+            sizes="100vw"
+            class="absolute inset-0 h-full w-full object-cover"
+            loading="eager"
+            fetchpriority="high"
+          />
+          <div
+            class="absolute inset-0"
+            style="background: linear-gradient(to top, rgb(var(--c-scrim) / 0.82) 0%, rgb(var(--c-scrim) / 0.35) 55%, rgb(var(--c-scrim) / 0.12) 100%);"
+          >
+          </div>
+          <div class="absolute inset-x-0 bottom-0">
+            <div class="mx-auto max-w-4xl px-5 pb-8 md:px-8 md:pb-10">
+              <p class="eyebrow" style="color: #f0d9a8;">{count}</p>
+              <h1 class="title-display mt-3 text-5xl text-[#f7efe0] md:text-6xl">{meta.label}</h1>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="mx-auto max-w-4xl px-5 pt-10 md:px-8">
+        <p class="max-w-2xl text-lg text-muted">{meta.intro}</p>
+        <hr class="horizon mt-8" />
+      </section>
+    </>
+  ) : (
+    <section class="mx-auto max-w-4xl px-5 pt-20 md:px-8">
+      <PageHeader eyebrow={count} title={meta.label}>
+        {meta.intro}
+      </PageHeader>
+    </section>
+  )}
 
   <section class="mx-auto max-w-4xl px-5 pb-10 md:px-8">
     {posts.length === 0 ? (
