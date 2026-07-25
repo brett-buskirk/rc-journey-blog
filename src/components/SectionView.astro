@@ -1,11 +1,11 @@
 ---
-import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import PostRow from './PostRow.astro';
 import PageHeader from './PageHeader.astro';
 import { getPostsByCategory } from '../lib/posts';
 import { categoryMeta, type CategoryKey } from '../lib/categories';
+import { sectionHero } from '../lib/sectionHero';
 
 interface Props { category: CategoryKey; }
 const { category } = Astro.props;
@@ -14,13 +14,7 @@ const posts = await getPostsByCategory(category);
 
 // Optional section hero: drop src/assets/sections/<route>.(webp|jpg|jpeg|png)
 // and it appears automatically — no code change. Missing → text header.
-const heroModules = import.meta.glob<ImageMetadata>(
-  '../assets/sections/*.{webp,jpg,jpeg,png}',
-  { eager: true, import: 'default' },
-);
-const hero = Object.entries(heroModules).find(
-  ([path]) => path.split('/').pop()?.replace(/\.[^.]+$/, '') === meta.route,
-)?.[1];
+const hero = sectionHero(meta.route);
 
 const count = `The Terrain · ${posts.length} ${posts.length === 1 ? 'piece' : 'pieces'}`;
 ---
