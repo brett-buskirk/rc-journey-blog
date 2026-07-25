@@ -34,8 +34,12 @@ export const CATEGORIES = {
     intro:
       'The longer, slower questions — meaning, mortality, identity, and what a second life is actually for. These are the meditations that don’t resolve in a single sitting. Draw the bucket up slowly; there’s no bottom to reach in a hurry.',
   },
+  // Not a browsable section — it holds the single "About the Journey" intro
+  // article, which lives with the About page. Its `route` points at /about/ so
+  // the article's category badge links there. Kept as a category so the post
+  // stays schema-valid; it's excluded from the section grids.
   'rcj-info': {
-    route: 'rcj-info',
+    route: 'about',
     label: 'About the Journey',
     blurb: 'What RC Journey is and why it exists.',
     intro: 'What RC Journey is, and why it exists — the shape of the project, in its own words.',

@@ -14,7 +14,7 @@ const days = daysFree();
 
 // Order the terrain deliberately: hardest truths first, widening to reflection.
 const terrainOrder: CategoryKey[] = [
-  'shadowed-mirror', 'reentry-realities', 'reflection', 'the-deep-well', 'rcj-info',
+  'shadowed-mirror', 'reentry-realities', 'reflection', 'the-deep-well',
 ];
 const counts = new Map<CategoryKey, number>();
 for (const p of posts) {
@@ -84,10 +84,10 @@ for (const p of posts) {
   <section class="mx-auto max-w-6xl px-5 py-20 md:px-8">
     <div class="flex items-baseline justify-between gap-4">
       <h2 class="text-3xl md:text-4xl">The Terrain</h2>
-      <p class="eyebrow">Five ways through</p>
+      <p class="eyebrow">Four ways through</p>
     </div>
     <hr class="horizon mt-6" />
-    <div class="mt-12 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="mt-12 grid gap-x-8 gap-y-12 sm:grid-cols-2">
       {terrainOrder.map((key) => (
         <TerrainCard category={key} count={counts.get(key) ?? 0} />
       ))}

@@ -1,8 +1,10 @@
 ---
-// A single "terrain" (category) card: a small version of the section hero with
+// A single "terrain" (category) card: a wide preview of the section hero with
 // the title overlaid, and the blurb below — a mini-preview of the page it links
-// to. Shared by the homepage and the Writing hub. Sections without a hero image
-// (e.g. rcj-info) fall back to a warm ochre→dusk gradient panel.
+// to. Sized for a two-up grid, so it uses the hero's native 16:9. Shared by the
+// homepage and the Writing hub. A section missing its hero image falls back to a
+// warm ochre→dusk gradient panel (defensive; the four content sections all have
+// one).
 import { Image } from 'astro:assets';
 import { categoryMeta, type CategoryKey } from '../lib/categories';
 import { sectionHero } from '../lib/sectionHero';
@@ -19,14 +21,14 @@ const countLabel = `${count} ${count === 1 ? 'piece' : 'pieces'}`;
 
 <a href={`/${c.route}/`} class="group block no-underline">
   <div
-    class="relative aspect-[4/3] overflow-hidden rounded-lg border border-line/60 transition-colors group-hover:border-ochre"
+    class="relative aspect-[16/9] overflow-hidden rounded-lg border border-line/60 transition-colors group-hover:border-ochre"
   >
     {img ? (
       <Image
         src={img}
         alt=""
-        widths={[400, 640, 800]}
-        sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 22rem"
+        widths={[480, 768, 1120]}
+        sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 34rem"
         class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         loading="lazy"
       />
@@ -36,12 +38,12 @@ const countLabel = `${count} ${count === 1 ? 'piece' : 'pieces'}`;
     {/* Scrim keeps the overlaid title legible over any image */}
     <div
       class="absolute inset-0"
-      style="background: linear-gradient(to top, rgb(var(--c-scrim) / 0.82) 0%, rgb(var(--c-scrim) / 0.25) 55%, transparent 100%);"
+      style="background: linear-gradient(to top, rgb(var(--c-scrim) / 0.82) 0%, rgb(var(--c-scrim) / 0.22) 55%, transparent 100%);"
     >
     </div>
-    <div class="absolute inset-x-0 bottom-0 p-4">
+    <div class="absolute inset-x-0 bottom-0 p-5">
       <p class="eyebrow" style="color: #f0d9a8;">{countLabel}</p>
-      <h3 class="title-display mt-1 text-2xl text-[#f7efe0]">{c.label}</h3>
+      <h3 class="title-display mt-1 text-2xl text-[#f7efe0] md:text-3xl">{c.label}</h3>
     </div>
   </div>
   <p class="mt-3 text-muted">{c.blurb}</p>
