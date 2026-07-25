@@ -33,10 +33,33 @@ export default defineConfig({
         ],
       },
       workbox: {
-        navigateFallback: '/404.html',
-        // Precache all HTML, CSS, JS, and fonts; images are handled at runtime.
-        globPatterns: ['**/*.{html,css,js,woff,woff2,ico}'],
+        // Precache only immutable, content-hashed assets — NOT HTML. Pages are
+        // served network-first (below), so a fresh deploy shows immediately for
+        // returning visitors instead of a cached shell that can point at an
+        // asset the new build already replaced.
+        globPatterns: ['**/*.{css,js,woff,woff2,ico}'],
+        // Opt out of @vite-pwa/astro's default navigateFallback ('/'). This is a
+        // multi-page site, so there's no single shell to fall back to — and with
+        // HTML no longer precached, that default would bind a handler to an
+        // unprecached URL and break the worker. The key must be *present* to
+        // override the integration default (it uses an `in` check), so we set it
+        // to undefined; navigations are handled by the NetworkFirst rule below.
+        navigateFallback: undefined,
+        cleanupOutdatedCaches: true,
         runtimeCaching: [
+          {
+            // HTML navigations: try the network first so new content shows on
+            // the next visit; fall back to the last-seen cached page only when
+            // offline or the network stalls.
+            urlPattern: ({ request }) => request.mode === 'navigate',
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'pages',
+              networkTimeoutSeconds: 3,
+              expiration: { maxEntries: 64, maxAgeSeconds: 7 * 24 * 60 * 60 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
           {
             // Astro content-hashes these filenames, so CacheFirst is always safe.
             urlPattern: /\/_astro\/.*\.(webp|png|jpg|jpeg|svg)$/i,
