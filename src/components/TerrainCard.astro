@@ -1,8 +1,11 @@
 ---
-// A single "terrain" (category) card: a hairline trailhead with a piece count,
-// label, and blurb. Shared by the homepage and the Writing hub so the grid
-// stays identical in both places.
+// A single "terrain" (category) card: a small version of the section hero with
+// the title overlaid, and the blurb below — a mini-preview of the page it links
+// to. Shared by the homepage and the Writing hub. Sections without a hero image
+// (e.g. rcj-info) fall back to a warm ochre→dusk gradient panel.
+import { Image } from 'astro:assets';
 import { categoryMeta, type CategoryKey } from '../lib/categories';
+import { sectionHero } from '../lib/sectionHero';
 
 interface Props {
   category: CategoryKey;
@@ -10,17 +13,36 @@ interface Props {
 }
 const { category, count } = Astro.props;
 const c = categoryMeta(category);
+const img = sectionHero(c.route);
+const countLabel = `${count} ${count === 1 ? 'piece' : 'pieces'}`;
 ---
 
-<a href={`/${c.route}/`} class="terrain-card group">
-  <p class="eyebrow">{count} {count === 1 ? 'piece' : 'pieces'}</p>
-  <h3 class="mt-2 flex items-center gap-2 text-2xl transition-colors group-hover:text-ochre">
-    {c.label}
-    <span
-      aria-hidden="true"
-      class="translate-x-0 text-ochre opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100"
-      >&rarr;</span
+<a href={`/${c.route}/`} class="group block no-underline">
+  <div
+    class="relative aspect-[4/3] overflow-hidden rounded-lg border border-line/60 transition-colors group-hover:border-ochre"
+  >
+    {img ? (
+      <Image
+        src={img}
+        alt=""
+        widths={[400, 640, 800]}
+        sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 22rem"
+        class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        loading="lazy"
+      />
+    ) : (
+      <div class="absolute inset-0" style="background: linear-gradient(135deg, var(--c-ochre), var(--c-dusk));"></div>
+    )}
+    {/* Scrim keeps the overlaid title legible over any image */}
+    <div
+      class="absolute inset-0"
+      style="background: linear-gradient(to top, rgb(var(--c-scrim) / 0.82) 0%, rgb(var(--c-scrim) / 0.25) 55%, transparent 100%);"
     >
-  </h3>
-  <p class="mt-2 text-muted">{c.blurb}</p>
+    </div>
+    <div class="absolute inset-x-0 bottom-0 p-4">
+      <p class="eyebrow" style="color: #f0d9a8;">{countLabel}</p>
+      <h3 class="title-display mt-1 text-2xl text-[#f7efe0]">{c.label}</h3>
+    </div>
+  </div>
+  <p class="mt-3 text-muted">{c.blurb}</p>
 </a>

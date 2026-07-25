@@ -192,18 +192,6 @@
     .btn-ghost:hover { border-color: var(--c-ochre); color: var(--c-ochre); }
   }
 
-  /* Terrain (section) card — a hairline that warms to ochre on hover, so the
-     grid reads as a set of trailheads rather than floating text. */
-  .terrain-card {
-    display: block;
-    border-top: 1px solid var(--c-line);
-    padding-top: 1rem;
-    text-decoration: none;
-    transition: border-color 0.2s ease;
-  }
-  @media (hover: hover) {
-    .terrain-card:hover { border-color: var(--c-ochre); }
-  }
 
   /* Long-form reading column. */
   .prose-rcj {
