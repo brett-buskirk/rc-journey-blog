@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import PostRow from '../components/PostRow.astro';
 import TerrainCard from '../components/TerrainCard.astro';
+import DayOneCard from '../components/DayOneCard.astro';
 import { getPosts } from '../lib/posts';
 import { type CategoryKey } from '../lib/categories';
 import { daysFree, SITE, SOCIAL } from '../lib/site';
@@ -78,6 +79,11 @@ for (const p of posts) {
         <a href={item.href} rel="me noopener" target="_blank" class="rounded-full border border-line px-4 py-2 font-mono text-xs uppercase tracking-widest no-underline hover:border-ochre">{item.label}</a>
       ))}
     </div>
+  </section>
+
+  {/* ── Day One — the interactive companion ─────────────────────────────── */}
+  <section class="mx-auto max-w-5xl px-5 pb-8 md:px-8">
+    <DayOneCard />
   </section>
 
   {/* ── The terrain (sections) ──────────────────────────────────────────── */}
