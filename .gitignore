@@ -17,6 +17,7 @@ node_modules/
 .env.*
 .DS_Store
 .claude/settings.local.json
+dev-notes/
 
 # logs
 npm-debug.log*
