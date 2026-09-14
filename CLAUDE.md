@@ -159,11 +159,10 @@ Wire every issue/PR up **completely on creation**:
 - **Assign** to `brett-buskirk`.
 - **Label** from the repo's base taxonomy (`documentation`, `enhancement`,
   `bug`, … — no custom scope labels here). **No milestones** in this repo.
-- **Add to the Estate board** (Project **#17**) *and* this repo's own project
-  (**#8 "RC Journey"**):
-  `gh project item-add <17|8> --owner brett-buskirk --url <url>`
-  (the Estate board aggregates many repos — query it with a high `--limit` to
-  find an item).
+- **Track in Linear** — the estate tracks work in **Linear** now (the old GitHub
+  Project #17 is retired, and this repo's own GitHub Project #8 is superseded by its
+  Linear project); linkage is via Linear's GitHub integration (a PR/commit magic word
+  auto-links the issue) — no manual board wiring.
 - The `brett-buskirk` gh account must be **active** for writes (`gh auth status`).
 
 **AgentGate** runs on every PR (`.agentgate.yml`): `scope` is **warning** here
